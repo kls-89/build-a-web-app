@@ -1,0 +1,14 @@
+<h1>Create New Blog Post</h1>
+
+<form action="/blogs" method="POST">
+  <label for="title">Title:</label>
+  <input required id="title" type="text" name="blog[title]">
+  <br>
+  <label for="postBody">Post:</label>
+  <textarea required name="blog[postBody]" id="postBody" cols="30" rows="10"></textarea>
+  <br>
+  <label for="postTags">Tags (separate each with a comma): </label>
+  <input name="blog[postTags]" id="postTags" type="text" placeholder="E.g. blog, learning, programming, express">
+  <br>
+  <button>Add New Post</button>
+</form>
