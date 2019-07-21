@@ -1,0 +1,26 @@
+{
+  "name": "progress-blog",
+  "version": "1.0.0",
+  "description": "A basic CRUD blog to track my progress while building a web app. Ideally, I will add to this at the end of every day that I work on this project. I will also document roadblocks I run into, ideas I'd like to implement, etc.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "kls-89"
+  },
+  "keywords": [
+    "blog",
+    "crud",
+    "progress",
+    "web"
+  ],
+  "author": "Keenan Leonard-Solis",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "ejs": "^2.6.2",
+    "express": "^4.17.1"
+  }
+}
