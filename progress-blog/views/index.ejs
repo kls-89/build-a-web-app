@@ -1,4 +1,20 @@
 <% include partials/header %>
   <h1>Blog posts</h1>
   <p>This page will serve as the index route to show all blog posts.</p>
-  <% include partials/footer %>
+
+  <% posts.forEach(post => { %>
+    <div>
+      <h3>
+        <%=post.title%>
+      </h3>
+      <p>
+        <%=post.created.toDateString()%>
+      </p>
+      <p>
+        <%=post.body%>
+      </p>
+    </div>
+    <% }) %>
+
+
+      <% include partials/footer %>

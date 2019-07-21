@@ -4,6 +4,9 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 
+// MODELS
+const Post = require("./models/post");
+
 // DB CONNECTION
 const connectionString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PW}@webdev-cluster-kls-qduay.mongodb.net/test?retryWrites=true&w=majority`;
 
@@ -22,7 +25,13 @@ app.get("/", (req, res, next) => {
   res.redirect("/blogs")
 });
 app.get("/blogs", (req, res, next) => {
-  res.render("index");
+  Post.find({}, (err, posts) => {
+    if (err) {
+      console.log("ERROR RETREIVING POSTS", err);
+    } else {
+      res.render("index", { posts: posts });
+    }
+  })
 });
 
 // NEW ROUTE -- Render form to create new blog post
@@ -32,8 +41,15 @@ app.get("/blogs/new", (req, res, next) => {
 
 // CREATE ROUTE -- Handle 
 app.post("/blogs", (req, res, next) => {
-  console.log(req.body)
-  res.redirect("/blogs")
+  Post.create(req.body.blog, (err, post) => {
+    if (err) {
+      console.log("ERROR ADDING POST TO DB", err);
+    } else {
+      console.log(post);
+      res.redirect("/blogs");
+    }
+  });
+
 });
 
 app.listen(3000, _ => console.log('blog app running'));
