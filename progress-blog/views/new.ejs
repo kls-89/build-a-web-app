@@ -1,14 +1,26 @@
-<h1>Create New Blog Post</h1>
+<% include partials/header %>
+<% include partials/navigation %>
+<div class="container">
+    <h1 class="text-center">Create New Blog Post</h1>
 
-<form action="/blogs" method="POST">
-  <label for="title">Title:</label>
-  <input required id="title" type="text" name="blog[title]">
-  <br>
-  <label for="body">Post:</label>
-  <textarea required name="blog[body]" id="body" cols="30" rows="10"></textarea>
-  <br>
-  <label for="tags">Tags (separate each with a comma): </label>
-  <input name="blog[tags]" id="tags" type="text" placeholder="E.g. blog, learning, programming, express">
-  <br>
-  <button>Add New Post</button>
-</form>
+    <form action="/blogs" method="POST">
+      <div class="form-group">
+          <label for="title">Title:</label>
+          <input required class="form-control" id="title" type="text" name="blog[title]">
+      </div>
+      
+      <div class="form-group">
+          <label for="body">Post:</label>
+          <textarea required name="blog[body]" class="form-control" id="body" rows="8"></textarea>
+      </div>
+      
+      <div class="form-group">
+          <label for="tags">Tags (separate each with a comma): </label>
+          <input name="blog[tags]" class="form-control" id="tags" type="text" placeholder="E.g. blog, learning, programming, express">
+      </div>
+      
+      <button class="btn btn-success btn-block mt-3">Add New Post</button>
+    </form>
+</div>
+
+<% include partials/footer %>

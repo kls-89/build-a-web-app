@@ -1,20 +1,27 @@
 <% include partials/header %>
-  <h1>Blog posts</h1>
+<% include partials/navigation %>
+  <div class="container">
+    <h1 class="text-primary text-center">Blog posts</h1>
   <p>This page will serve as the index route to show all blog posts.</p>
 
   <% posts.forEach(post => { %>
-    <div>
-      <h3>
-        <%=post.title%>
-      </h3>
-      <p>
-        <%=post.created.toDateString()%>
-      </p>
-      <p>
-        <%=post.body%>
-      </p>
+    <div class="card mb-3">
+      <div class="card-body">
+          <h2 class="card-title">
+              <%=post.title%>
+            </h2>
+            <h6 class="card-subtitle text-muted"><%=post.tags%></h6>
+            <p class="card-text text-muted">
+              <%=post.created.toDateString()%>
+            </p>
+            <p class="card-body">
+              <%=post.body%>
+            </p>
+            <a href="#" class="card-link">Read More</a>
+      </div>
     </div>
     <% }) %>
+  </div>
 
 
       <% include partials/footer %>
