@@ -2,10 +2,10 @@
 <% include partials/navigation %>
 
 <div class="container">
-    <h1 class="text-primary text-center">Blog posts</h1>
-  <p>This page will serve as the show route to a specific blog post.</p>
-    <div class="card mb-3">
+    <h1 class="text-primary text-center">Blog Posts</h1>
+    <div class="card">
       <div class="card-body">
+          <a href="/blogs/<%=post._id%>/edit" class="btn btn-warning float-right text-white">Edit Post</a>
           <h2 class="card-title">
               <%=post.title%>
             </h2>
@@ -16,7 +16,8 @@
             <p class="card-body">
               <%-post.body%>
             </p>
-            <a href="/blogs" class="card-link">Back</a>
+            <a class="btn btn-info" href="/blogs" class="card-link">Back</a>
+            
       </div>
     </div>
 

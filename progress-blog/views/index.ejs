@@ -1,8 +1,7 @@
 <% include partials/header %>
 <% include partials/navigation %>
   <div class="container">
-    <h1 class="text-primary text-center">Blog posts</h1>
-  <p>This page will serve as the index route to show all blog posts.</p>
+    <h1 class="text-primary text-center">Blog Posts</h1>
 
   <% posts.forEach(post => { %>
     <div class="card mb-3">
@@ -11,9 +10,21 @@
               <%=post.title%>
             </h2>
             <h6 class="card-subtitle text-muted"><%=post.tags%></h6>
-            <p class="card-text text-muted">
-              <%=post.created.toDateString()%>
-            </p>
+
+            <% if (post.modified > post.created) {      %>
+              <p class="card-text text-muted">Created: 
+                <%=post.created%>
+              </p>
+              <p class="card-text text-muted">Modified: 
+                <%=post.created%>
+              </p>
+           <% } else { %>
+            <p class="card-text text-muted">Created: 
+                <%=post.created%>
+              </p>
+              <% }%>
+
+
             <p class="card-body">
               
               <% if (post.body.length > 145) { %>
@@ -23,7 +34,7 @@
               <% } %>
               
             </p>
-            <a href="blogs/<%=post._id%>" class="card-link">Read More</a>
+            <a href="blogs/<%=post._id%>" class="btn btn-info float-right">Read More</a>
       </div>
     </div>
     <% }) %>

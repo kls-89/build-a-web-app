@@ -4,7 +4,8 @@ const PostSchema = new mongoose.Schema({
   title: String,
   body: String,
   tags: String,
-  created: { type: Date, default: Date.now }
+  created: { type: Date, default: Date.now },
+  modified: { type: Date, default: Date.now}
 });
 
 const Post = mongoose.model("Post", PostSchema);
