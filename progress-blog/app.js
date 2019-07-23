@@ -3,6 +3,7 @@ require("dotenv").config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
+const expressSanitizer = require('express-sanitizer');
 
 // MODELS
 const Post = require("./models/post");
@@ -18,6 +19,7 @@ mongoose.connect(connectionString, { useNewUrlParser: true, dbName: "BuildWebApp
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(expressSanitizer());
 app.set("view engine", "ejs");
 
 // INDEX ROUTE
@@ -41,6 +43,7 @@ app.get("/blogs/new", (req, res, next) => {
 
 // CREATE ROUTE -- Handle 
 app.post("/blogs", (req, res, next) => {
+  req.body.blog.body = req.sanitize(req.body.blog.body)
   Post.create(req.body.blog, (err, post) => {
     if (err) {
       console.log("ERROR ADDING POST TO DB", err);
@@ -63,4 +66,4 @@ app.get("/blogs/:id", (req, res, next) => {
   })
 });
 
-app.listen(9889, _ => console.log('blog app running'));
+app.listen(3000, _ => console.log('blog app running'));

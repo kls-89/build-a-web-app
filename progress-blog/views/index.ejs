@@ -17,9 +17,9 @@
             <p class="card-body">
               
               <% if (post.body.length > 145) { %>
-                <%=post.body.substring(0,144)%>...
+                <%-post.body.substring(0,144)%>...
              <% } else { %>
-                <%=post.body%>
+                <%-post.body%>
               <% } %>
               
             </p>
