@@ -15,9 +15,15 @@
               <%=post.created.toDateString()%>
             </p>
             <p class="card-body">
-              <%=post.body%>
+              
+              <% if (post.body.length > 145) { %>
+                <%=post.body.substring(0,144)%>...
+             <% } else { %>
+                <%=post.body%>
+              <% } %>
+              
             </p>
-            <a href="#" class="card-link">Read More</a>
+            <a href="blogs/<%=post._id%>" class="card-link">Read More</a>
       </div>
     </div>
     <% }) %>

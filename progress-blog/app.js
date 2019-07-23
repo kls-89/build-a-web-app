@@ -52,4 +52,15 @@ app.post("/blogs", (req, res, next) => {
 
 });
 
-app.listen(3000, _ => console.log('blog app running'));
+// SHOW ROUTE
+app.get("/blogs/:id", (req, res, next) => {
+  Post.findById(req.params.id, (err, post) => {
+    if (err) {
+      console.log("ERROR DISPLAYING INDIVIDUAL POST IN SHOW ROUTE", err);
+    } else {
+      res.render("show", {post: post})
+    }
+  })
+});
+
+app.listen(9889, _ => console.log('blog app running'));
