@@ -1,0 +1,27 @@
+<% include partials/header %>
+<% include partials/navigation %>
+
+<div class="container">
+    <h1 class="text-primary text-center">Post Preview</h1>
+    <h2 class="text-danger text-center">THIS HAS NOT BEEN SAVED TO THE DB</h2>
+    <div class="card">
+      <div class="card-body">
+          <h2 class="card-title">
+              <%=post.title%>
+            </h2>
+            <h6 class="card-subtitle text-muted"><%=post.tags%></h6>
+            <p class="card-text text-muted">
+             
+            </p>
+            <p class="card-body">
+              <%-post.body%>
+            </p>
+            <a class="btn btn-info" href="/blogs/<%=id%>/edit" class="card-link">Back</a>
+            <p><%=post.id%></p>     
+      </div>
+    </div>
+
+  </div>
+
+
+<% include partials/footer %>

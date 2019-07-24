@@ -19,8 +19,12 @@
           <input name="blog[tags]" class="form-control" id="tags" type="text" placeholder="E.g. blog, learning, programming, express" value="<%=post.tags%>">
       </div>
       
+      <button type="submit" formaction="/blogs/<%=post._id%>/preview" class="btn btn-success btn-block mt-3">Preview Post</button>
+
       <button class="btn btn-warning btn-block mt-3">Edit Post</button>
+      
     </form>
+    
     <form action="/blogs/<%=post._id%>?_method=DELETE" method="POST">
     <button class="btn btn-danger btn-block mt-3">Delete Post</button>
     </form>

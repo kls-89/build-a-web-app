@@ -82,7 +82,6 @@ app.get("/blogs/:id/edit", (req, res, next) => {
 
 // UPDATE ROUTE -- Handle Update to a specific post.
 app.put("/blogs/:id", (req, res, next) => {
-  console.log("here")
   req.body.blog.body = req.sanitize(req.body.blog.body);
   Post.findByIdAndUpdate(req.params.id, req.body.blog, (err, updatedPost) => {
     if (err) {
@@ -92,6 +91,13 @@ app.put("/blogs/:id", (req, res, next) => {
     }
   });
 });
+
+// PREVIEW ROUTE -- Redirects Update form to a preview page, which is not yet saved to the DB.
+app.post("/blogs/:id/preview", (req, res, next) => {
+  const id = req.params.id;
+  res.render("preview", {post: req.body.blog, id: id});
+});
+
 
 // DELETE ROUTE -- Handle Delete Action for a specific post.
 app.delete("/blogs/:id", (req, res, next) => {
