@@ -92,7 +92,7 @@ app.put("/blogs/:id", (req, res, next) => {
   });
 });
 
-// PREVIEW ROUTE -- Redirects Update form to a preview page, which is not yet saved to the DB.
+// PREVIEW ROUTE -- Redirects Update form to a preview page, which is not yet saved to the DB. BUG: Data doesn't persist when user goes back to edit form. Perhaps move the Update button to this new page?
 app.post("/blogs/:id/preview", (req, res, next) => {
   const id = req.params.id;
   res.render("preview", {post: req.body.blog, id: id});
