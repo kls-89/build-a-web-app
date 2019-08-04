@@ -29,4 +29,6 @@ app.use(express.static("public"));
 
 app.use(blogRoutes);
 
+// TODO: Add Error Page middleware.
+
 app.listen(3000, _ => console.log('blog app running'));
