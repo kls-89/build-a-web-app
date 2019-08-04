@@ -18,6 +18,10 @@
           <label for="tags">Tags (separate each with a comma): </label>
           <input name="blog[tags]" class="form-control" id="tags" type="text" placeholder="E.g. blog, learning, programming, express" value="<%=post.tags%>">
       </div>
+
+      <!-- <div class="form-group">
+          <input value="<%=post.created%>">
+      </div> -->
       
       <button type="submit" formaction="/blogs/<%=post._id%>/preview" class="btn btn-success btn-block mt-3">Preview Post</button>
 
