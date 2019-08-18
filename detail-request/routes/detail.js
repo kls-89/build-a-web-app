@@ -7,5 +7,7 @@ const detailController = require("../controllers/details");
 router.get("/", detailController.getIndex);
 router.get("/details", detailController.getDetails);
 
+// NEW ROUTE
+router.get("/details/new", detailController.getNewDetailForm);
 
 module.exports = router;
