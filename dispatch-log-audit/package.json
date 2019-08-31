@@ -1,0 +1,23 @@
+{
+  "name": "dispatch-log-audit",
+  "version": "1.0.0",
+  "description": "Web based solution for auditing dispatch log entries and providing feedback to involved employees.",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "kls-89"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "dispatch",
+    "auditing",
+    "web",
+    "app"
+  ],
+  "author": "Keenan Leonard-Solis",
+  "license": "ISC"
+}
