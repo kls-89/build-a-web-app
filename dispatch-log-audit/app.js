@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 
+// ROUTES
 const employeeRoutes = require('./routes/employee/employee');
 const adminRoutes = require('./routes/admin/admin');
 const errorRoutes = require('./routes/error/404');
