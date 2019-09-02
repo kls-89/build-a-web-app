@@ -15,9 +15,6 @@ exports.postIndex = (req, res, next) => {
     const totalCalls = Math.abs(ending - starting) + 1;
     const percentageOfCalls = Number(req.body.percentage) / 100;
     const numberOfCallsToAudit = Math.ceil(totalCalls * percentageOfCalls);
-    console.log("TOTAL ", totalCalls);
-    console.log("% CALLS ", percentageOfCalls);
-    console.log("NUM TO AUDIT ", numberOfCallsToAudit);
 
     let randomCallNumbers = [];
 
@@ -52,8 +49,6 @@ exports.postIndex = (req, res, next) => {
         currentYear: currentYear,
     });
 }
-
-// **BUG: RANDOM NUMBER GENERATOR NOT INCLUDING MAX NUMBER Needs to be fixed!**
 
 exports.getAddUser = (req, res, next) => {
     res.render('admin/add-user', {
