@@ -9,7 +9,7 @@ const adminRoutes = require('./routes/admin/admin');
 const errorRoutes = require('./routes/error/404');
 app.set('view engine', 'ejs');
 
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use('/admin', adminRoutes);
 app.use(employeeRoutes);
