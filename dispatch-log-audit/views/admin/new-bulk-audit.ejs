@@ -1,0 +1,57 @@
+<% include ../partials/header %>
+  <div class="container">
+    <h1>Bulk Create New Audits</h1>
+
+
+    <form action="/admin/audits/new/bulk" method="POST">
+      <div class="form-group">
+        <label for="startingCallNumber">Starting Call Number:
+          <%=currentYear%>-</label>
+        <input class="form-control" type="number" name="starting" id="startingCallNumber" min="1">
+      </div>
+
+      <div class="form-group">
+        <label for="endingCallNumber">Ending Call Number:
+          <%=currentYear%>-</label>
+        <input class="form-control" type="number" name="ending" id="endingCallNumber" min="1">
+      </div>
+
+      <div class="form-group">
+        <label for="percentage">Percentage of Calls to Audit:</label>
+        <input class="form-control" type="number" name="percentage" id="percentage" min="1" max="100">
+      </div>
+
+      <button class="btn btn-block btn-primary" type="submit">Randomize Calls</button>
+    </form>
+
+    <% if (submittedValues) { %>
+      <div>
+        <p>You chose the following range of call numbers:
+          <strong>
+            <%= currentYear %>-
+              <%=starting %>
+          </strong> -
+          <strong>
+            <%= currentYear %>-
+              <%=ending %>
+          </strong>.</p>
+        <p>This is a total of
+          <%=totalCalls%> calls,
+            <%=Math.floor(percentageOfCalls * 100)%>% of which is
+              <%=numberOfCallsToAudit %> (rounded up to the next whole number).</p>
+
+        <p>Here are your randomly selected calls for this range:
+          <%=listOfRandomCallNumbers %>
+        </p>
+
+        <form action="">
+          <button>Generate Audits</button>
+        </form>
+
+      </div>
+      <% } %>
+  </div>
+
+  <% include ../partials/footer %>
+
+    <% include ../partials/footer %>

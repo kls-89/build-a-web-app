@@ -3,13 +3,25 @@ const currentYear = moment().format('YY');
 
 exports.getIndex = (req, res, next) => {
     res.render("admin/index", {
-        pageTitle: "Administrator | Index",
+        pageTitle: "Admin Index"
+    })
+}
+
+exports.getNewAudit = (req, res, next) => {
+    res.render('admin/new-audit', {
+        pageTitle: 'Create New Audit',
+        currentYear: currentYear
+    })
+}
+exports.getNewBulkAudit = (req, res, next) => {
+    res.render("admin/new-bulk-audit", {
+        pageTitle: "Administrator | Bulk Add ",
         currentYear: currentYear,
         submittedValues: false
     });
 }
 
-exports.postIndex = (req, res, next) => {
+exports.postNewBulkAudit = (req, res, next) => {
     const starting = Number(req.body.starting);
     const ending = Number(req.body.ending);
     const totalCalls = Math.abs(ending - starting) + 1;
@@ -37,7 +49,7 @@ exports.postIndex = (req, res, next) => {
         return ` ${currentYear}-${String(callNumber)}`;
     });
 
-    res.render('admin/index', {
+    res.render('admin/new-bulk-audit', {
         starting: starting,
         ending: ending,
         totalCalls: totalCalls,
@@ -45,7 +57,7 @@ exports.postIndex = (req, res, next) => {
         numberOfCallsToAudit: numberOfCallsToAudit,
         listOfRandomCallNumbers: listOfRandomCallNumbers,
         submittedValues: true,
-        pageTitle: "Administrator | Index",
+        pageTitle: "Administrator | Bulk Add Audits",
         currentYear: currentYear,
     });
 }
