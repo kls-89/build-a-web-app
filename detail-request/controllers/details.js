@@ -9,3 +9,7 @@ exports.getDetails = (req, res, next) => {
 exports.getNewDetailForm = (req, res, next) => {
     res.render("new");
 }
+
+exports.postNewDetail = (req, res, next) => {
+    res.redirect('/details');
+}
