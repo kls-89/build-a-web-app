@@ -5,6 +5,10 @@ const AuditSchema = new Schema({
   auditDate: {
     type: Date,
     default: Date.now
+  },
+  callNumber: {
+    type: String,
+    required: true
   }
 });
 
