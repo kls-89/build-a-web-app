@@ -15,6 +15,7 @@ const blogRoutes = require("./routes/blog");
 // DB CONNECTION
 const connectionString = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PW}@webdev-cluster-kls-qduay.mongodb.net/test?retryWrites=true&w=majority`;
 
+
 mongoose.connect(connectionString, { useNewUrlParser: true, dbName: "BuildWebApp_Blog", useFindAndModify: false })
   .then(console.log("SUCCESSFULLY CONNECTED TO MONGO DB ATLAS CLUSTER."))
   .catch(err => console.log("ERROR CONNECTING TO ATLAS CLUSTER", err));
