@@ -8,7 +8,9 @@ const adminController = require('../../controllers/admin/admin');
 router.get('/', adminController.getIndex);
 
 // CALLTAKERS
-router.get('/calltakers/new', adminController.getNewCalltaker)
+router.get('/calltakers/new', adminController.getNewCalltaker);
+
+router.post('/calltakers', adminController.postNewCalltaker);
 
 // OFFICERS
 
