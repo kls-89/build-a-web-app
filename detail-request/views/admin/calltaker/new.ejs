@@ -1,0 +1,35 @@
+<% include ../../partials/header%>
+
+<form action="/admin/calltakers" method="POST">
+    <div class="form-group">
+      <label for="firstName">First Name:</label>
+      <input type="text" class="form-control" id="firstName" placeholder="John" name="firstName" required>
+    </div>
+    <div class="form-group">
+      <label for="lastName">Last Name:</label>
+      <input type="text" class="form-control" id="lastName" placeholder="Example" name="lastName" required>
+    </div>
+      <div class="form-group">
+        <label for="email">Email Address:</label>
+        <input type="email" class="form-control" id="email" placeholder="john@example.com" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password:</label>
+        <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" required>
+      </div>
+
+      <button>Create New Calltaker</button>
+</form>
+
+<% include ../../partials/footer%>
+
+
+
+const email = req.body.email;
+const password = req.body.password;
+const firstName = req.body.firstName;
+const lastName = req.body.lastName;

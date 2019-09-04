@@ -1,5 +1,5 @@
 require('dotenv').config();
-
+const bodyParser = require('body-parser');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -9,6 +9,7 @@ const adminRoutes = require('./routes/admin/admin');
 const app = express();
 
 app.set("view engine", "ejs");
+app.use(bodyParser.urlencoded({extended: true}));
 
 // MIDDLEWARE
 app.use('/admin', adminRoutes);
