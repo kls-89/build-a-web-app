@@ -1,12 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Add New Detail</title>
-</head>
-<body>
+<% include partials/header %>
     <h1>Add New Detail</h1>
     <form action="/details" method="POST">
         <label for="detailDate">Date of Detail: </label>
@@ -19,6 +11,4 @@
         <input type="number" name="numberOfficers" id="numberOfficers" value="1">
         <button>Add Detail</button>
     </form>
-    
-</body>
-</html>
+    <% include partials/footer %>
