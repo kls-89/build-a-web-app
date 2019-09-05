@@ -15,5 +15,6 @@ exports.getNewDetailForm = (req, res, next) => {
 }
 
 exports.postNewDetail = (req, res, next) => {
+    console.log(req.body);
     res.redirect('/details');
 }
