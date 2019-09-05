@@ -18,8 +18,8 @@ const DetailSchema = new Schema({
         required: true
     },
 
-    detailStartTime: {
-        type: Date,
+    detailDuration: {
+        type: String,
         required: true
     },
 
