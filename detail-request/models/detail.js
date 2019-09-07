@@ -18,6 +18,11 @@ const DetailSchema = new Schema({
         required: true
     },
 
+    detailStartTime: {
+        type: String,
+        required: true
+    },
+
     detailDuration: {
         type: String,
         required: true
@@ -27,34 +32,45 @@ const DetailSchema = new Schema({
         type: Boolean
     },
 
-    detailEndTime: {
-        type: Date
+    detailLocation: {
+        city: {
+            type: String,
+            required: true
+        },
+        zip: {
+            type: String,
+        },
+        streetOneNumber: {
+            type: Number
+        },
+        streetOneName: {
+            type: String,
+            required: true
+        },
+        streetOneSuffix: {
+            type: String
+        },
+        streetTwoNumber: {
+            type: Number
+        },
+        streetTwoName: {
+            type: String
+        },
+        streetTwoSuffix: {
+            type: String
+        }
     },
 
-    streetOneNumber: {
-        type: Number
-    },
-    streetOneName: {
-        type: String,
-        required: true
-    },
-    streetOneSuffix: {
-        type: String
-    },
-    streetTwoNumber: {
-        type: Number
-    },
-    streetTwoName: {
-        type: String
-    },
-    streetTwoSuffix: {
-        type: String
-    },
     numberOfficers: {
         type: Number,
         required: true
     },
+
     requestor: {
+        billingCompany: {
+            type: String,
+            required: true
+        },
         name: {
             type: String,
             required: true
@@ -67,6 +83,14 @@ const DetailSchema = new Schema({
     officerId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Officer'
+    },
+    filled: {
+        type: Boolean,
+        required: true,
+        default: false
+    },
+    notes: {
+        type: String
     }
 
 });

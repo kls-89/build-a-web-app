@@ -1,113 +1,159 @@
 <% include partials/header %>
     <h1 class="text-center">Add New Detail</h1>
-    <h6 class="text-center"><span class="text-danger">*</span> Required Field</h6>
+    <h6 class="text-center">
+        <span class="text-danger">*</span> Required Field</h6>
     <form action="/details" method="POST">
         <!-- DATE -->
         <div class="form-group">
-            <label for="detailDate">Detail Date<span class="text-danger">*</span></label>
+            <label for="detailDate">Detail Date
+                <span class="text-danger">*</span>
+            </label>
             <input class="form-control" type="date" name="detailDate" id="detailDate" required>
         </div>
         <!-- START TIME -->
         <div class="form-group">
-            <label for="StartTime">Detail Start Time<span class="text-danger">*</span></label>
-            <input class="form-control" type="time" name="StartTime" id="StartTime" required>
+            <label for="detailStartTime">Detail Start Time
+                <span class="text-danger">*</span>
+            </label>
+            <input class="form-control" type="time" name="detailStartTime" id="detailStartTime" required>
         </div>
         <!-- ASAP REQUEST? -->
         <div class="form-group form-check">
-                <input type="checkbox" class="form-check-input" name="asapStart" id="asapStart">
-                <label class="form-check-label" for="asapStart">ASAP Request?</label>
-              </div>
+            <input type="checkbox" class="form-check-input" name="asapStart" id="asapStart" value=1>
+            <label class="form-check-label" for="asapStart">ASAP Request?</label>
+        </div>
         <!-- DETAIL DURATION -->
         <div class="form-group">
-                <label for="detailDuration">Detail Duration<span class="text-danger">*</span></label>
-                <select class="form-control" id="detailDuration" required>
-                  <option value="detailDurationHalf">Half Day</option>
-                  <option value="detailDurationFull">Full Day</option>
-                  <option value="detailDurationUnknown">Unknown</option>
-                </select>
-              </div>
-        
+            <label for="detailDuration">Detail Duration
+                <span class="text-danger">*</span>
+            </label>
+            <select class="form-control" id="detailDuration" name="detailDuration" required>
+                <option value="Half Day">Half Day</option>
+                <option value="Full Day">Full Day</option>
+                <option value="Unknown">Unknown</option>
+            </select>
+        </div>
+
         <!-- LOCATION -->
+        <hr>
         <label for="detailLocation">Detail Location:</label>
         <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="streetOneNumber">Street Number</label>
-                        <input type="number" id="streetOneNumber" name="streetOneNumber" class="form-control" placeholder="123">
-                    </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="streetOneNumber">Street Number</label>
+                    <input type="number" id="streetOneNumber" name="streetOneNumber" class="form-control" placeholder="123">
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="streetOneName">Street Name<span class="text-danger">*</span></label>
-                        <input type="text" id="streetOneName" name="streetOneName" class="form-control" placeholder="North" required>
-                    </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="streetOneName">Street Name
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="streetOneName" name="streetOneName" class="form-control" placeholder="North" required>
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                            <label for="streetOneSuffix">Street Suffix</label>
-                            <select class="form-control" id="streetOneSuffix" name="stretOneSuffix">
-                                    <option value="Avenue">Ave</option>
-                                    <option value="Boulevard">Blvd</option>
-                                    <option value="Court">Ct</option>
-                                    <option value="Lane">Ln</option>
-                                    <option value="Place">Pl</option>
-                                    <option value="Road">Rd</option>
-                                    <option value="Street" selected>St</option>
-                                    <option value="Way">Way</option>
-                                </select>
-                    </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="streetOneSuffix">Street Suffix</label>
+                    <select class="form-control" id="streetOneSuffix" name="streetOneSuffix">
+                        <option value="Avenue">Ave</option>
+                        <option value="Boulevard">Blvd</option>
+                        <option value="Court">Ct</option>
+                        <option value="Lane">Ln</option>
+                        <option value="Place">Pl</option>
+                        <option value="Road">Rd</option>
+                        <option value="Street" selected>St</option>
+                        <option value="Way">Way</option>
+                    </select>
                 </div>
-              </div>
+            </div>
+        </div>
         <div class="form-row">
-                <div class="col">
-                    <div class="form-group">
-                        <label for="streetTwoNumber">Optional Cross Street Number</label>
-                        <input type="number" id="streetTwoNumber" name="streetTwoNumber" class="form-control" placeholder="123">
-                    </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="streetTwoNumber">Optional Cross Street Number</label>
+                    <input type="number" id="streetTwoNumber" name="streetTwoNumber" class="form-control" placeholder="123">
                 </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="streetTwoNumber">Optional Cross Street Name</label>
-                        <input type="text" id="streetTwoName" name="streetTwoName" class="form-control" placeholder="Optional Intersection">
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <label for="streetTwoSuffix">Optional Cross Street Suffix</label>
-                        <select class="form-control" id="streetTwoSuffix" name="streetTwoSuffix">
-                            <option value="" disabled selected>Street Suffix</option>
-                            <option value="Avenue">Ave</option>
-                            <option value="Boulevard">Blvd</option>
-                            <option value="Court">Ct</option>
-                            <option value="Lane">Ln</option>
-                            <option value="Place">Pl</option>
-                            <option value="Road">Rd</option>
-                            <option value="Street">St</option>
-                            <option value="Way">Way</option>
-                        </select>
-                    </div>
-                </div>
-              </div>
-            <!-- DETAIL REQUESTOR CONTACT INFO -->
-            <div class="form-group">
-                    <label for="requestorName">Detail Requestor Name<span class="text-danger">*</span></label>
-                    <input class="form-control" type="text" required>
-            </div>      
-            <div class="form-group">
-                    <label for="requestorTelephone">Detail Requestor Call Back Number<span class="text-danger">*</span></label>
-                    <input class="form-control" type="tel" placeholder="978-555-1234" required>
-            </div>      
-            
-            <!-- NUMBER OF OFFICERS REQUESTED -->
-            <div class="form-group">
-                <label for="numberOfficers">Number of Officers Requested<span class="text-danger">*</span></label>
-                <input class="form-control" type="number" name="numberOfficers" id="numberOfficers" value="1" required>
             </div>
-            <!-- CALLTAKER NAME -->
-            <div class="form-group">
-                <label for="calltakerId">Calltaker<span class="text-danger">*</span></label>
-                <input class="form-control" type="text" id="calltakerId" name="calltakerName" placeholder="John Smith" required>
+            <div class="col">
+                <div class="form-group">
+                    <label for="streetTwoNumber">Optional Cross Street Name</label>
+                    <input type="text" id="streetTwoName" name="streetTwoName" class="form-control" placeholder="Optional Intersection">
+                </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="streetTwoSuffix">Optional Cross Street Suffix</label>
+                    <select class="form-control" id="streetTwoSuffix" name="streetTwoSuffix">
+                        <option value="" disabled>Street Suffix</option>
+                        <option value="Avenue">Ave</option>
+                        <option value="Boulevard">Blvd</option>
+                        <option value="Court">Ct</option>
+                        <option value="Lane">Ln</option>
+                        <option value="Place">Pl</option>
+                        <option value="Road">Rd</option>
+                        <option value="Street">St</option>
+                        <option value="Way">Way</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="col">
+                <div class="form-group">
+                    <label for="city">City:
+                        <span class="text-danger">*</span>
+                    </label>
+                    <input type="text" id="city" name="city" class="form-control" value="Georgetown" required>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <label for="zip">Zip Code:
+                    </label>
+                    <input type="text" id="zip" name="zip" class="form-control" value="01833" required>
+                </div>
+            </div>
+        </div>
+        <hr>
+        <!-- DETAIL REQUESTOR CONTACT INFO -->
+        <div class="form-group">
+            <label for="requestorName">Billing Company Name:
+                <span class="text-danger">*</span>
+            </label>
+            <input id="billingCompany" name="billingCompany" class="form-control" type="text" required>
+        </div>
+        <div class="form-group">
+            <label for="requestorName">Detail Requestor Name
+                <span class="text-danger">*</span>
+            </label>
+            <input id="requestorName" name="requestorName" class="form-control" type="text" placeholder="ex: Peter" required>
+        </div>
+        <div class="form-group">
+            <label for="requestorTelephone">Detail Requestor Call Back Number
+                <span class="text-danger">*</span>
+            </label>
+            <input id="requestorTelephone" name="requestorTelephone" class="form-control" type="tel" placeholder="ex: 978-352-1234" required>
+        </div>
+
+        <!-- NUMBER OF OFFICERS REQUESTED -->
+        <div class="form-group">
+            <label for="numberOfficers">Number of Officers Requested
+                <span class="text-danger">*</span>
+            </label>
+            <input class="form-control" type="number" name="numberOfficers" id="numberOfficers" value="1" required>
+        </div>
+        <!-- CALLTAKER NAME -->
+        <div class="form-group">
+            <label for="calltakerId">Calltaker
+                <span class="text-danger">*</span>
+            </label>
+            <input class="form-control" type="text" id="calltakerId" name="calltakerName" placeholder="ex: John Smith" required>
+        </div>
+        <div class="form-group">
+            <label for="notes">Notes:</label>
+            <textarea class="form-control" name="notes" id="notes" rows="3"></textarea>
+        </div>
         <button class="btn btn-success btn-block">Add Detail</button>
     </form>
     <% include partials/footer %>
