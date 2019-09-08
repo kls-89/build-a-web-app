@@ -1,4 +1,5 @@
 const Detail = require('../models/detail');
+const mongoose = require('mongoose');
 
 exports.getIndex = (req, res, next) => {
 
@@ -50,8 +51,6 @@ exports.postNewDetail = (req, res, next) => {
 
     const notes = req.body.notes;
 
-    console.log("STREET ONE SUFFIX:  ", req.body.streetOneSuffix)
-
     const newDetail = {
         calltakerId: null,
         detailDate: detailDate,
@@ -90,6 +89,86 @@ exports.postNewDetail = (req, res, next) => {
 
 
 }
+
+// EDIT/UPDATE
+exports.getEditDetail = (req, res, next) => {
+    Detail
+        .findById(req.params.id)
+        .then(detail => {
+            console.log(detail);
+            return res.render('edit', { pageTitle: "Edit Detail", details: detail })
+        })
+        .catch(err => console.log(err));
+}
+
+
+exports.postEditDetail = (req, res, next) => {
+    const updatedDetailDate = req.body.detailDate;
+    const updatedDetailStartTime = req.body.detailStartTime;
+    const updatedDetailDuration = req.body.detailDuration;
+    const updatedAsapStart = req.body.asapStart;
+    const updatedDetailEndTime = req.body.detailEndTime;
+
+    const updatedCity = req.body.city;
+    const updatedZip = req.body.zip;
+
+    const updatedStreetOneNumber = req.body.streetOneNumber;
+    const updatedStreetOneName = req.body.streetOneName;
+    const updatedStreetOneSuffix = req.body.streetOneSuffix;
+
+    const updatedStreetTwoNumber = req.body.streetTwoNumber;
+    const updatedStreetTwoName = req.body.streetTwoName;
+    const updatedStreetTwoSuffix = req.body.streetTwoSuffix;
+
+    const updatedNumberOfficers = req.body.numberOfficers;
+
+    const updatedBillingCompany = req.body.billingCompany;
+    const updatedRequestorName = req.body.requestorName;
+    const updatedRequestorTelephone = req.body.requestorTelephone;
+
+    const updatedNotes = req.body.notes;
+
+    const updatedDetail = {
+        calltakerId: null,
+        detailDate: updatedDetailDate,
+        detailDuration: updatedDetailDuration,
+        detailStartTime: updatedDetailStartTime,
+        asapStart: updatedAsapStart,
+        detailEndTime: updatedDetailEndTime,
+        detailLocation: {
+            city: updatedCity,
+            zip: updatedZip,
+            streetOneNumber: updatedStreetOneNumber,
+            streetOneName: updatedStreetOneName,
+            streetOneSuffix: updatedStreetOneSuffix,
+            streetTwoNumber: updatedStreetTwoNumber,
+            streetTwoName: updatedStreetTwoName,
+            streetTwoSuffix: updatedStreetTwoSuffix
+        },
+        numberOfficers: updatedNumberOfficers,
+        requestor: {
+            billingCompany: updatedBillingCompany,
+            name: updatedRequestorName,
+            telephone: updatedRequestorTelephone
+        },
+        officerId: null,
+        filled: false,
+        notes: updatedNotes
+    };
+
+    return Detail
+        .findByIdAndUpdate(req.params.id, { updatedDetail })
+        .then(result => {
+            console.log("DETAIL UPDATED");
+            console.log("CONTROLLER ACTION BROKEN! NOT UPDATING DETAILS")
+            return res.redirect('/details');
+        })
+        .catch(err => console.log(err));
+}
+
+
+
+
 
 // SHOW DB RESULTS
 exports.show = (req, res, next) => {

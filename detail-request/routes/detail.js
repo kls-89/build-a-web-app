@@ -15,5 +15,9 @@ router.post("/details", detailController.postNewDetail);
 
 router.get("/show", detailController.show);
 
+// EDIT
+router.get('/details/:id/edit', detailController.getEditDetail);
+// UPDATE
+router.post('/details/:id', detailController.postEditDetail);
 
 module.exports = router;

@@ -1,0 +1,164 @@
+<% include partials/header %>
+  <h1 class="text-center">Edit Detail</h1>
+  <h6 class="text-center">
+    <span class="text-danger">*</span> Required Field</h6>
+  <form action="/details/<%=details._id%>" method="POST">
+    <!-- DATE -->
+    <div class="form-group">
+      <label for="detailDate">Detail Date
+        <span class="text-danger">*</span>
+      </label>
+      <input class="form-control" type="date" name="detailDate" id="detailDate" required value="<%=details.detailDate.toDateString()%>">
+    </div>
+    <!-- START TIME -->
+    <div class="form-group">
+      <label for="detailStartTime">Detail Start Time
+        <span class="text-danger">*</span>
+      </label>
+      <input class="form-control" type="time" name="detailStartTime" id="detailStartTime" required>
+    </div>
+    <!-- ASAP REQUEST? -->
+    <div class="form-group form-check">
+      <input type="checkbox" class="form-check-input" name="asapStart" id="asapStart">
+      <label class="form-check-label" for="asapStart">ASAP Request?</label>
+    </div>
+    <!-- DETAIL DURATION -->
+    <div class="form-group">
+      <label for="detailDuration">Detail Duration
+        <span class="text-danger">*</span>
+      </label>
+      <select class="form-control" id="detailDuration" name="detailDuration" required>
+        <option value="Half Day">Half Day</option>
+        <option value="Full Day">Full Day</option>
+        <option value="Unknown">Unknown</option>
+      </select>
+    </div>
+
+    <!-- LOCATION -->
+    <hr>
+    <label for="detailLocation">Detail Location:</label>
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="streetOneNumber">Street Number</label>
+          <input type="number" id="streetOneNumber" name="streetOneNumber" class="form-control" value="<%=details.detailLocation.streetOneNumber%>">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="streetOneName">Street Name
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" id="streetOneName" name="streetOneName" class="form-control" value="<%=details.detailLocation.streetOneName%>"
+            required>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="streetOneSuffix">Street Suffix</label>
+          <select class="form-control" id="streetOneSuffix" name="streetOneSuffix">
+            <option value="value=" <%=details.detailLocation.streetOneSuffix%>></option>
+            <option value="Avenue">Ave</option>
+            <option value="Boulevard">Blvd</option>
+            <option value="Court">Ct</option>
+            <option value="Lane">Ln</option>
+            <option value="Place">Pl</option>
+            <option value="Road">Rd</option>
+            <option value="Street" selected>St</option>
+            <option value="Way">Way</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="streetTwoNumber">Optional Cross Street Number</label>
+          <input type="number" id="streetTwoNumber" name="streetTwoNumber" class="form-control" value="<%=details.detailLocation.streetTwoNumber%>">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="streetTwoNumber">Optional Cross Street Name</label>
+          <input type="text" id="streetTwoName" name="streetTwoName" class="form-control" value="<%=details.detailLocation.streetTwoName%>">
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="streetTwoSuffix">Optional Cross Street Suffix</label>
+          <select class="form-control" id="streetTwoSuffix" name="streetTwoSuffix">
+            <option value="<%=details.detailLocation.streetTwoSuffix%>" selected>
+              <%=details.detailLocation.streetTwoSuffix%>
+            </option>
+            <option value="Avenue">Ave</option>
+            <option value="Boulevard">Blvd</option>
+            <option value="Court">Ct</option>
+            <option value="Lane">Ln</option>
+            <option value="Place">Pl</option>
+            <option value="Road">Rd</option>
+            <option value="Street">St</option>
+            <option value="Way">Way</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col">
+        <div class="form-group">
+          <label for="city">City:
+            <span class="text-danger">*</span>
+          </label>
+          <input type="text" id="city" name="city" class="form-control" value="<%=details.detailLocation.city%>" required>
+        </div>
+      </div>
+      <div class="col">
+        <div class="form-group">
+          <label for="zip">Zip Code:
+          </label>
+          <input type="text" id="zip" name="zip" class="form-control" value="<%=details.detailLocation.zip%>" required>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <!-- DETAIL REQUESTOR CONTACT INFO -->
+    <div class="form-group">
+      <label for="requestorName">Billing Company Name:
+        <span class="text-danger">*</span>
+      </label>
+      <input id="billingCompany" name="billingCompany" class="form-control" type="text" required value="<%=details.requestor.billingCompany%>">
+    </div>
+    <div class="form-group">
+      <label for="requestorName">Detail Requestor Name
+        <span class="text-danger">*</span>
+      </label>
+      <input id="requestorName" name="requestorName" class="form-control" type="text" value="<%=details.requestor.name%>" required>
+    </div>
+    <div class="form-group">
+      <label for="requestorTelephone">Detail Requestor Call Back Number
+        <span class="text-danger">*</span>
+      </label>
+      <input id="requestorTelephone" name="requestorTelephone" class="form-control" type="tel" value="<%=details.requestor.telephone%>"
+        required>
+    </div>
+
+    <!-- NUMBER OF OFFICERS REQUESTED -->
+    <div class="form-group">
+      <label for="numberOfficers">Number of Officers Requested
+        <span class="text-danger">*</span>
+      </label>
+      <input class="form-control" type="number" name="numberOfficers" id="numberOfficers" value="<%=details.numberOfficers%>" required>
+    </div>
+    <!-- CALLTAKER NAME -->
+    <div class="form-group">
+      <label for="calltakerId">Calltaker
+        <span class="text-danger">*</span>
+      </label>
+      <input class="form-control" type="text" id="calltakerId" name="calltakerName" value="<%=details.calltakerId%>" required>
+    </div>
+    <div class="form-group">
+      <label for="notes">Notes:</label>
+      <textarea class="form-control" name="notes" id="notes" rows="3"><%=details.notes%></textarea>
+    </div>
+    <button class="btn btn-success btn-block">Edit Detail</button>
+  </form>
+  <% include partials/footer %>
