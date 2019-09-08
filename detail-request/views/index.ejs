@@ -6,94 +6,103 @@
         <a class="btn btn-success" href="/details/new">Create New Detail</a>
     </div>
 
+    <form action="/show" method="GET">
+        <div class="form-group">
+            <label for="showToggle">Show</label>
+            <select name="sortBy" class="form-control" id="showToggle">
+                <option value="unfilled">Unfilled Details</option>
+                <option value="all">All Details</option>
+                <option value="asap">ASAP Requests</option>
+                <option value="filled">Filled Details</option>
+            </select>
+        </div>
+        <button class="btn btn-info">Show</button>
+    </form>
     <% details.forEach(detail => { %>
-        <!-- Only render details that are unfilled -->
-        <% if (!detail.filled) { %>
-            <div class="card text-center" style="margin-bottom: 1rem">
+        <div class="card text-center" style="margin-bottom: 1rem">
 
-                <div class="card-header">
-                    <% if (detail.filled) { %>
-                        <h4 class="card-text text-primary text-center">
-                            <strong>FILLED</strong>
-                        </h4>
-                        <% } %>
-                            <% if (detail.asapStart) { %>
-                                <h4 class="card-text text-danger text-center">
-                                    <strong>ASAP</strong>
-                                </h4>
-                                <% } %>
-                </div>
-
-                <div class="card-body">
-                    <h5 class="card-title text-muted">Billing Company:
-                        <%=detail.requestor.billingCompany%>
-                    </h5>
-                    <h6 class="card-subtitle text-muted">Requestor Name:
-                        <%= detail.requestor.name %> (
-                            <%= detail.requestor.telephone %>
-                                )
-                    </h6>
-                    <br>
-                    <h6 class="card-subtitle mb-2">
-                        <strong>Detail Date</strong>:
-                        <%= detail.detailDate.toDateString() %>
-                    </h6>
-                    <h6 class="card-subtitle mb-2">
-                        <strong>Detail Start Time</strong>:
-                        <%= detail.detailStartTime %>
-                    </h6>
-
-
-                    <address>
-                        <strong>Location</strong>:
-                        <%=detail.detailLocation.streetOneNumber%>
-                            <%=detail.detailLocation.streetOneName%>
-                                <%=detail.detailLocation.streetOneSuffix%>
-
-                                    <!-- Add 2nd street if applicable -->
-                                    <% if (detail.detailLocation.streetTwoName) { %>
-                                        at
-                                        <%=detail.detailLocation.streetTwoNumber%>
-                                            <%=detail.detailLocation.streetTwoName%>
-                                                <%=detail.detailLocation.streetTwoSuffix%>
-                                                    <% } %>
-                                                        <br>
-                                                        <%= detail.detailLocation.city %>,
-                                                            <%=detail.detailLocation.zip%>
-                    </address>
-
-                    <p class="card-text">
-                        <strong>Number of Officers Requested</strong>:
-                        <%= detail.numberOfficers%>
-                    </p>
-
-                    <p class="card-text">
-                        <strong>Notes</strong>:
-                        <em>
-                            <%=detail.notes%>
-                        </em>
-                    </p>
-
-                    <p class="cart-text">
-                        <strong>Officer(s) Assigned</strong>:
-                        <%= detail.officerId ? detail.officerId  : "None" %>
-                    </p>
-                    <% if (!detail.filled) { %>
-                        <a href="#" class="card-link btn btn-primary">Fill Detail</a>
-                        <% } %>
-
-                            <a href="#" class="card-link btn btn-info">Edit Detail</a>
-                </div>
-                <div class="card-footer text-muted text-center">
-                    <p class="card-text">
-                        <strong>Date of Request</strong>:
-                        <em>
-                            <%=detail.created%>
-                        </em>
-                    </p>
-                </div>
+            <div class="card-header">
+                <% if (detail.filled) { %>
+                    <h4 class="card-text text-primary text-center">
+                        <strong>FILLED</strong>
+                    </h4>
+                    <% } %>
+                        <% if (detail.asapStart) { %>
+                            <h4 class="card-text text-danger text-center">
+                                <strong>ASAP</strong>
+                            </h4>
+                            <% } %>
             </div>
-            <% } %>
-                <% }) %>
 
-                    <% include partials/footer %>
+            <div class="card-body">
+                <h5 class="card-title text-muted">Billing Company:
+                    <%=detail.requestor.billingCompany%>
+                </h5>
+                <h6 class="card-subtitle text-muted">Requestor Name:
+                    <%= detail.requestor.name %> (
+                        <%= detail.requestor.telephone %>
+                            )
+                </h6>
+                <br>
+                <h6 class="card-subtitle mb-2">
+                    <strong>Detail Date</strong>:
+                    <%= detail.detailDate.toDateString() %>
+                </h6>
+                <h6 class="card-subtitle mb-2">
+                    <strong>Detail Start Time</strong>:
+                    <%= detail.detailStartTime %>
+                </h6>
+
+
+                <address>
+                    <strong>Location</strong>:
+                    <%=detail.detailLocation.streetOneNumber%>
+                        <%=detail.detailLocation.streetOneName%>
+                            <%=detail.detailLocation.streetOneSuffix%>
+
+                                <!-- Add 2nd street if applicable -->
+                                <% if (detail.detailLocation.streetTwoName) { %>
+                                    at
+                                    <%=detail.detailLocation.streetTwoNumber%>
+                                        <%=detail.detailLocation.streetTwoName%>
+                                            <%=detail.detailLocation.streetTwoSuffix%>
+                                                <% } %>
+                                                    <br>
+                                                    <%= detail.detailLocation.city %>,
+                                                        <%=detail.detailLocation.zip%>
+                </address>
+
+                <p class="card-text">
+                    <strong>Number of Officers Requested</strong>:
+                    <%= detail.numberOfficers%>
+                </p>
+
+                <p class="card-text">
+                    <strong>Notes</strong>:
+                    <em>
+                        <%=detail.notes%>
+                    </em>
+                </p>
+
+                <p class="cart-text">
+                    <strong>Officer(s) Assigned</strong>:
+                    <%= detail.officerId ? detail.officerId  : "None" %>
+                </p>
+                <% if (!detail.filled) { %>
+                    <a href="#" class="card-link btn btn-primary">Fill Detail</a>
+                    <% } %>
+
+                        <a href="#" class="card-link btn btn-info">Edit Detail</a>
+            </div>
+            <div class="card-footer text-muted text-center">
+                <p class="card-text">
+                    <strong>Date of Request</strong>:
+                    <em>
+                        <%=detail.created%>
+                    </em>
+                </p>
+            </div>
+        </div>
+        <% }) %>
+
+            <% include partials/footer %>

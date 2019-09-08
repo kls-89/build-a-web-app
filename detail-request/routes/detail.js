@@ -13,4 +13,7 @@ router.get("/details/new", detailController.getNewDetailForm);
 // CREATE ROUTE
 router.post("/details", detailController.postNewDetail);
 
+router.get("/show", detailController.show);
+
+
 module.exports = router;

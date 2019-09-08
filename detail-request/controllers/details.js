@@ -7,7 +7,7 @@ exports.getIndex = (req, res, next) => {
 
 exports.getDetails = (req, res, next) => {
     Detail
-        .find({})
+        .find({ filled: false })
         .then(details => {
             return res.render("index", {
                 pageTitle: "Available Details",
@@ -91,4 +91,36 @@ exports.postNewDetail = (req, res, next) => {
 
 }
 
+// SHOW DB RESULTS
+exports.show = (req, res, next) => {
+    const search = req.query.sortBy;
+    let q = {};
 
+    switch (search) {
+        case 'asap':
+            q = { asapStart: true }
+            break;
+
+        case 'unfilled':
+            q = { filled: false }
+            break;
+        case 'filled':
+            q = { filled: true }
+            break;
+        case 'all':
+            q = {}
+            break;
+    }
+
+    Detail
+        .find(q)
+        .then(details => {
+            // console.log(details)
+            return res.render("index", {
+                pageTitle: `Sorted Results | ${search.charAt(0).toUpperCase() + search.slice(1)}`,
+                details: details
+            });
+        })
+        .catch(err => console.log(err));
+
+}
