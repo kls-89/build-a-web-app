@@ -15,11 +15,12 @@
         <label for="employeeName">Calltaker Name:</label>
         <select class="form-control" id="employeeName">
 
-          <option>John Smith</option>
-          <option>Lee Green</option>
-          <option>3</option>
-          <option>4</option>
-          <option>5</option>
+          <% employees.forEach(employee => { %>
+            <option>
+              <%=employee.firstName%>
+                <%=employee.lastName%>
+            </option>
+            <%  }) %>
         </select>
       </div>
 

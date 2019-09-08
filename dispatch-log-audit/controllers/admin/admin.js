@@ -1,5 +1,8 @@
+const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const currentYear = moment().format('YY');
+
+const Employee = require('../../models/employee');
 
 exports.getIndex = (req, res, next) => {
     res.render("admin/index", {
@@ -8,10 +11,14 @@ exports.getIndex = (req, res, next) => {
 }
 
 exports.getNewAudit = (req, res, next) => {
-    res.render('admin/new-audit', {
-        pageTitle: 'Create New Audit',
-        currentYear: currentYear
-    })
+    Employee.find({})
+        .then(employees => {
+            res.render('admin/new-audit', {
+                pageTitle: 'Create New Audit',
+                currentYear: currentYear,
+                employees: employees
+            })
+        })
 }
 exports.getNewBulkAudit = (req, res, next) => {
     res.render("admin/new-bulk-audit", {
@@ -66,4 +73,38 @@ exports.getAddUser = (req, res, next) => {
     res.render('admin/add-user', {
         pageTitle: 'Add New User'
     })
+}
+
+exports.postAddUser = (req, res, next) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+
+    Employee
+        .findOne({ email: email })
+        .then(checkEmployeeExists => {
+            if (checkEmployeeExists) {
+                // User Account exists
+                return res.redirect('/admin/add-user');
+            }
+            // else hash pw and create new user
+            return bcrypt
+                .hash(password, 12)
+                .then(hashedPassword => {
+                    const employee = Employee.create({
+                        email: email,
+                        password: hashedPassword,
+                        firstName: firstName,
+                        lastName: lastName
+                    });
+                })
+        })
+        .then(result => {
+            res.redirect('/admin/audits');
+        })
+        .catch(err => {
+            console.log(err);
+        })
 }

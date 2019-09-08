@@ -16,7 +16,9 @@ router.get('/audits/new/bulk', adminController.getNewBulkAudit)
 // CREATE AUDITS BULK
 router.post('/audits/new/bulk', adminController.postNewBulkAudit);
 
-// Create New User Account
+// Create New User Account -- render form
 router.get("/add-user", adminController.getAddUser);
+// Create new User account -- handle post request
+router.post("/add-user", adminController.postAddUser);
 
 module.exports = router;
