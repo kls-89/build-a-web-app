@@ -18,8 +18,13 @@ const EmployeeSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
-  // Audit History
+  },
+  auditHistory: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Audit'
+    }
+  ],
 });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

@@ -4,29 +4,32 @@
     <p class="lead text-center">Use this form to audit a single call.</p>
 
 
-    <form>
+    <form action="/admin/audits" method="POST">
       <div class="form-group">
         <label for="callNumber">Call Number:
           <%=currentYear%>-</label>
+        <input type="hidden" name="currentYear" value="<%=currentYear%>" name="currentYear">
         <input type="number" class="form-control" id="callNumber" placeholder="12345" name="callNumber" required>
 
       </div>
       <div class="form-group">
-        <label for="employeeName">Calltaker Name:</label>
-        <select class="form-control" id="employeeName">
+        <label for="calltakerName">Calltaker Name:</label>
+        <select class="form-control" id="calltakerName" name="calltakerName">
 
           <% employees.forEach(employee => { %>
-            <option>
+            <option value="<%=employee._id%>">
               <%=employee.firstName%>
                 <%=employee.lastName%>
+
             </option>
             <%  }) %>
         </select>
       </div>
 
       <p class="text-info text-center">Call Date/Time:</p>
+
       <div class="form-check">
-        <input class="form-check-input" type="radio" name="callDate" id="callDateCorrect" value="1" checked>
+        <input class="form-check-input" type="radio" name="callDate" id="callDateCorrect" name="callDateCorrect" value="1" checked>
         <label class="form-check-label" for="callDateCorrect">
           Call Date is Correct
         </label>
@@ -102,7 +105,7 @@
 
       <div class="form-group">
         <label for="auditorComments">Remarks: </label>
-        <textarea class="form-control" id="auditorComments" rows="3">...</textarea>
+        <textarea class="form-control" id="auditorComments" name="auditorComments" rows="3" placeholder="Use this space to add any comments."></textarea>
       </div>
       <button class="btn btn-success btn-block">Create Audit</button>
     </form>

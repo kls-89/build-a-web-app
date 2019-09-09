@@ -3,6 +3,7 @@ const moment = require('moment');
 const currentYear = moment().format('YY');
 
 const Employee = require('../../models/employee');
+const Audit = require('../../models/audit');
 
 exports.getIndex = (req, res, next) => {
     res.render("admin/index", {
@@ -20,6 +21,46 @@ exports.getNewAudit = (req, res, next) => {
             })
         })
 }
+
+exports.postNewAudit = (req, res, next) => {
+    const callNumber = `${req.body.currentYear}-${req.body.callNumber}`;
+    const employeeId = req.body.calltakerName;
+    const callDate = req.body.callDate;
+    const callReason = req.body.callReason;
+    const callLocation = req.body.callLocation;
+    const callAction = req.body.callAction;
+    const criticalErrors = req.body.criticalErrors;
+    const flagForReview = req.body.flagForReview;
+    const auditorComments = req.body.auditorComments;
+
+    Employee
+        .findById(employeeId)
+        .then(employee => {
+            console.log(employee);
+            const calltakerName = `${employee.firstName} ${employee.lastName}`;
+            return Audit.create({
+                callNumber: callNumber,
+                calltakerName: calltakerName,
+                callDate: callDate,
+                callReason: callReason,
+                callLocation: callLocation,
+                callAction: callAction,
+                criticalErrors: criticalErrors,
+                flagForReview: flagForReview,
+                auditorComments: auditorComments,
+                employeeId: employee._id
+            }).then(audit => {
+                employee.auditHistory.push(audit._id);
+                employee.save();
+                return res.redirect("/admin/audits/new");
+            })
+        })
+        .catch(err => console.log(err))
+
+
+
+}
+
 exports.getNewBulkAudit = (req, res, next) => {
     res.render("admin/new-bulk-audit", {
         pageTitle: "Administrator | Bulk Add ",

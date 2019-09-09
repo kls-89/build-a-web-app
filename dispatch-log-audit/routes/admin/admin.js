@@ -10,9 +10,14 @@ router.get("/audits", adminController.getIndex);
 // NEW AUDIT
 router.get("/audits/new", adminController.getNewAudit);
 // CREATE AUDIT
+router.post("/audits", adminController.postNewAudit);
+
+
+
 
 // NEW AUDITS BULK
 router.get('/audits/new/bulk', adminController.getNewBulkAudit)
+
 // CREATE AUDITS BULK
 router.post('/audits/new/bulk', adminController.postNewBulkAudit);
 
