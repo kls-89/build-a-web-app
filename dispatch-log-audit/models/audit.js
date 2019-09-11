@@ -6,6 +6,14 @@ const AuditSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  auditStatus: {
+    type: String,
+    default: "OPEN"
+  },
+  auditInProgress: {
+    type: Boolean,
+    default: true
+  },
   callNumber: {
     type: String,
     required: true

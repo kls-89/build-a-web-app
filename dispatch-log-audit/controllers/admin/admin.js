@@ -6,9 +6,16 @@ const Employee = require('../../models/employee');
 const Audit = require('../../models/audit');
 
 exports.getIndex = (req, res, next) => {
-    res.render("admin/index", {
-        pageTitle: "Admin Index"
-    })
+    Audit
+        .find({})
+        .then(audits => {
+            console.log(audits);
+            return res.render("admin/index", {
+                pageTitle: "Admin Index",
+                audits: audits
+            })
+        })
+        .catch(err => console.log(err));
 }
 
 exports.getNewAudit = (req, res, next) => {
@@ -32,6 +39,7 @@ exports.postNewAudit = (req, res, next) => {
     const criticalErrors = req.body.criticalErrors;
     const flagForReview = req.body.flagForReview;
     const auditorComments = req.body.auditorComments;
+    const auditInProgress = req.body.auditInProgress;
 
     Employee
         .findById(employeeId)
@@ -48,6 +56,7 @@ exports.postNewAudit = (req, res, next) => {
                 criticalErrors: criticalErrors,
                 flagForReview: flagForReview,
                 auditorComments: auditorComments,
+                auditInProgress: auditInProgress,
                 employeeId: employee._id
             }).then(audit => {
                 employee.auditHistory.push(audit._id);
@@ -108,6 +117,53 @@ exports.postNewBulkAudit = (req, res, next) => {
         pageTitle: "Administrator | Bulk Add Audits",
         currentYear: currentYear,
     });
+}
+
+exports.postGenerateRandomAudits = (req, res, next) => {
+    const listOfRandomCallNumbers = req.body.listOfRandomCallNumbers;
+    let arrOfRandomCalls = listOfRandomCallNumbers.split(',');
+
+    // Strip whitespace from each call number
+    let arrOfRandomCallsToSubmit = arrOfRandomCalls.map(callNumber => {
+        return callNumber.trim();
+    });
+
+    // Create audits for each call number:
+
+    for (let i = 0; i < arrOfRandomCallsToSubmit.length; i++) {
+        Audit
+            .create({
+                callNumber: arrOfRandomCallsToSubmit[i],
+                calltakerName: "ENTER CALLTAKER NAME",
+                callDate: true,
+                callReason: true,
+                callLocation: true,
+                callAction: true,
+                criticalErrors: false,
+                flagForReview: false,
+                auditorComments: "ENTER COMMENTS HERE",
+                // employeeId: employee._id
+            })
+            .then(audits => {
+                console.log("BULK AUDITS CREATED")
+                res.redirect("/admin/audits");
+            })
+            .catch(err => console.log(err));
+    }
+
+};
+
+exports.getShowAudit = (req, res, next) => {
+    const id = req.params.id;
+    Audit
+        .findById(id)
+        .then(audit => {
+            res.render('admin/show-audit', {
+                pageTitle: "Audit",
+                audit: audit
+            })
+        })
+        .catch(err => console.log(err));
 }
 
 exports.getAddUser = (req, res, next) => {

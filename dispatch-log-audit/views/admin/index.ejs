@@ -1,13 +1,62 @@
 <% include ../partials/header %>
-    <div class="container">
-        <h1 class="text-center">Admin Index</h1>
-        <div class="jumbotron text-center">
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione accusantium esse aperiam id harum labore similique,
-                minima quas tempore culpa ea. Saepe et rerum ipsam molestias! Vel dolores qui natus?</p>
-            <a class="btn btn-info" href="/admin/audits/new">Create New Audit</a>
-            <a class="btn btn-info" href="/admin/audits/new/bulk">Create Multiple Audits</a>
-        </div>
-        <h2 class="text-center">All Audits will appear here</h2>
+    <h1 class="text-center">Admin Index</h1>
+    <div class="jumbotron text-center">
+        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione accusantium esse aperiam id harum labore similique,
+            minima quas tempore culpa ea. Saepe et rerum ipsam molestias! Vel dolores qui natus?</p>
+        <a class="btn btn-info" href="/admin/audits/new">Create New Audit</a>
+        <a class="btn btn-info" href="/admin/audits/new/bulk">Create Multiple Audits</a>
     </div>
+    <% if (audits.length <= 0) {%>
+        <h2 class="text-center">No Audits</h2>
+        <%} else {%>
+            <%  audits.forEach(audit => { %>
+                <div class="card" style="margin-bottom: 1rem">
+                    <!-- CARD HEADER -->
+                    <div class="card-header">
+                        <% if (audit.auditInProgress) { %>
+                            <h3 class="text-center text-warning">
+                                <i class="fas fa-edit"></i>
+                                In Progress
+                            </h3>
+                            <%  } else { %>
+                                <h3 class="text-center text-success">
+                                    <i class="fas fa-edit"></i>
+                                    Audit Complete
+                                </h3>
+                                <%   } %>
 
-    <% include ../partials/footer %>
+                                    <% if (audit.criticalErrors) { %>
+                                        <h3 class="text-center text-danger">
+                                            <i class="fas fa-exclamation-triangle"></i>
+                                            Critical Errors Found
+                                        </h3>
+                                        <% } else { %>
+                                            <h3 class="text-center text-success">No Critical Errors Found
+                                                <i class="fas fa-check"></i>
+                                            </h3>
+
+                                            <% } %>
+
+
+                    </div>
+                    <!-- CARD BODY -->
+                    <div class="card-body">
+                        <h5 class="card-title text-center">
+                            <%=audit.callNumber%>
+                        </h5>
+                        <h6 class="card-subtitle">
+                            <strong>Calltaker Name</strong>:
+                            <%=audit.calltakerName%>
+                        </h6>
+                        <p class="card-body">Audit Status:
+                            <%=audit.auditStatus%>
+                        </p>
+                    </div>
+                    <a href="/admin/audits/<%=audit._id%>" class="btn btn-info">See More</a>
+                </div>
+                <%   }) %>
+
+                    <%}%>
+
+
+                        <% include ../partials/footer %>

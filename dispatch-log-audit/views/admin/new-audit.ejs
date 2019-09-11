@@ -107,6 +107,10 @@
         <label for="auditorComments">Remarks: </label>
         <textarea class="form-control" id="auditorComments" name="auditorComments" rows="3" placeholder="Use this space to add any comments."></textarea>
       </div>
+
+      <!-- Audits conducted via this form are automatically marked as completed: -->
+      <input type="hidden" name="auditInProgress" value=0>
+
       <button class="btn btn-success btn-block">Create Audit</button>
     </form>
   </div>

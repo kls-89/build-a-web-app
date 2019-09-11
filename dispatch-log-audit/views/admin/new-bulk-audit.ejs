@@ -1,6 +1,6 @@
 <% include ../partials/header %>
   <div class="container">
-    <h1>Bulk Create New Audits</h1>
+    <h1 class="text-center">Bulk Create New Audits</h1>
 
 
     <form action="/admin/audits/new/bulk" method="POST">
@@ -24,32 +24,35 @@
       <button class="btn btn-block btn-primary" type="submit">Randomize Calls</button>
     </form>
 
-    <% if (submittedValues) { %>
-      <div>
-        <p>You chose the following range of call numbers:
-          <strong>
-            <%= currentYear %>-
-              <%=starting %>
-          </strong> -
-          <strong>
-            <%= currentYear %>-
-              <%=ending %>
-          </strong>.</p>
-        <p>This is a total of
-          <%=totalCalls%> calls,
-            <%=Math.floor(percentageOfCalls * 100)%>% of which is
-              <%=numberOfCallsToAudit %> (rounded up to the next whole number).</p>
+    <!-- GENERATE RANDOM AUDITS -->
+    <form action="/admin/audits/new/bulk-generate-audits" method="POST">
+      <% if (submittedValues) { %>
+        <div>
+          <p>You chose the following range of call numbers:
+            <strong>
+              <%= currentYear %>-
+                <%=starting %>
+            </strong> -
+            <strong>
+              <%= currentYear %>-
+                <%=ending %>
+            </strong>.</p>
+          <p>This is a total of
+            <%=totalCalls%> calls,
+              <%=Math.floor(percentageOfCalls * 100)%>% of which is
+                <%=numberOfCallsToAudit %> (rounded up to the next whole number).</p>
 
-        <p>Here are your randomly selected calls for this range:
-          <%=listOfRandomCallNumbers %>
-        </p>
+          <p>Here are your randomly selected calls for this range:
+            <%=listOfRandomCallNumbers%>
+          </p>
+          <input type="hidden" name="listOfRandomCallNumbers" value="<%=listOfRandomCallNumbers %>">
 
-        <form action="">
-          <button>Generate Audits</button>
-        </form>
 
-      </div>
-      <% } %>
+          <button class="btn btn-success btn-block">Generate Multiple Audits</button>
+    </form>
+
+    </div>
+    <% } %>
   </div>
 
   <% include ../partials/footer %>

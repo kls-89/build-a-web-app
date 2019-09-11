@@ -12,6 +12,8 @@ router.get("/audits/new", adminController.getNewAudit);
 // CREATE AUDIT
 router.post("/audits", adminController.postNewAudit);
 
+// SHOW AUDIT
+router.get("/audits/:id", adminController.getShowAudit);
 
 
 
@@ -19,7 +21,10 @@ router.post("/audits", adminController.postNewAudit);
 router.get('/audits/new/bulk', adminController.getNewBulkAudit)
 
 // CREATE AUDITS BULK
+// Generates random call numbers
 router.post('/audits/new/bulk', adminController.postNewBulkAudit);
+
+router.post('/audits/new/bulk-generate-audits', adminController.postGenerateRandomAudits);
 
 // Create New User Account -- render form
 router.get("/add-user", adminController.getAddUser);
