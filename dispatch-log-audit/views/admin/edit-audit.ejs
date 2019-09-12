@@ -1,0 +1,141 @@
+<% include ../partials/header %>
+<div class="container">
+  <h1 class="text-center">Edit Audit for Call # <%=audit.callNumber%></h1>
+  <p class="lead text-center">Use this form to audit a single call.</p>
+
+
+  <form action="/admin/audits" method="POST">
+    <div class="form-group">
+      <label for="callNumber">Call Number:
+        <%=currentYear%>-</label>
+      <input type="hidden" name="currentYear" value="<%=currentYear%>" name="currentYear">
+      <!-- Slice audit call number to remove YY- prefix -->
+      <input type="number" class="form-control" id="callNumber" value="<%=audit.callNumber.slice(3)%>" name="callNumber"
+        required>
+    </div>
+
+
+    <div class="form-group">
+      <label for="calltakerName">Calltaker Name:</label>
+      <select class="form-control" id="calltakerName" name="calltakerName">
+        <option disabled <% if (!audit.employeeId) { %> selected <% } %>>
+          Select Calltaker Name
+        </option>
+        <% employees.forEach(employee => { %>
+        <!-- On page load, select the calltaker from the dropdown. Otherwise, just select the default -->
+        <option value="<%=employee._id%>"
+          <% if (audit.employeeId && audit.employeeId.toString() === employee._id.toString() ) { %> selected <% } %>>
+          <%=employee.firstName%>
+          <%=employee.lastName%>
+        </option>
+        <%  }) %>
+      </select>
+    </div>
+    <!-- CALL DATE/TIME -->
+    <p class="text-info text-center">Call Date/Time:</p>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callDate" id="callDateCorrect" name="callDateCorrect" value="1"
+        <% if (audit.callDate) { %> checked <% } %>>
+      <label class="form-check-label" for="callDateCorrect">
+        Call Date is Correct
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callDate" id="callDateIncorrect" value="0"
+        <% if (!audit.callDate) { %> checked <% } %>>
+      <label class="form-check-label" for="callDateIncorrect">
+        Call Date is NOT Correct
+      </label>
+    </div>
+    <!-- CALL REASON -->
+    <p class="text-info text-center">Call Reason Code:</p>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callReason" id="callReasonCorrect" value="1"
+        <% if (audit.callReason) { %> checked <% } %>>
+      <label class="form-check-label" for="callReasonCorrect">
+        Call Reason is Correct
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callReason" id="callReasonIncorrect" value="0"
+        <% if (!audit.callReason) { %> checked <% } %>>
+      <label class="form-check-label" for="callReasonIncorrect">
+        Call Reason is NOT Correct
+      </label>
+    </div>
+    <!-- CALL LOCATION -->
+    <p class="text-info text-center">Call Location:</p>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callLocation" id="callLocationCorrect" value="1"
+        <% if (audit.callLocation) { %> checked <% } %>>
+      <label class="form-check-label" for="callLocationCorrect">
+        Call Location is Correct
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callLocation" id="callLocationIncorrect" value="0"
+        <% if (!audit.callLocation) { %> checked <% } %>>
+      <label class="form-check-label" for="callLocationIncorrect">
+        Call Location is NOT Correct
+      </label>
+    </div>
+    <!-- CALL ACTION -->
+    <p class="text-info text-center">Call Action Code:</p>
+    <div class="form-check-inline">
+      <input class="form-check-input" type="radio" name="callAction" id="callActionCorrect" value="1"
+        <% if (audit.callAction) { %> checked <% } %>>
+      <label class="form-check-label" for="callActionCorrect">
+        Call Action is Correct
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="callAction" id="callActionIncorrect" value="0"
+        <% if (!audit.callAction) { %> checked <% } %>>
+      <label class="form-check-label" for="callActionIncorrect">
+        Call Action is NOT Correct
+      </label>
+    </div>
+
+    <!-- CRITICAL ERRORS -->
+    <p class="text-center text-info">Critical Errors:</p>
+
+    <div class="form-check-inline">
+      <input class="form-check-input" type="radio" name="criticalErrors" id="criticalErrorsTrue" value="1"
+        <% if (audit.criticalErrors) { %> checked <% } %>>
+      <label class="form-check-label text-danger" for="criticalErrorsTrue">
+        Critical Errors Found in this Log Entry.
+      </label>
+    </div>
+    <div class="form-check">
+      <input class="form-check-input" type="radio" name="criticalErrors" id="criticalErrorsFalse" value="0"
+        <% if (!audit.criticalErrors) { %> checked <% } %>>
+      <label class="form-check-label text-success" for="criticalErrorsFalse">
+        No Critical Errors Found in this Log Entry.
+      </label>
+    </div>
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="flagForReview" id="flagForReviewTrue" value="1"
+        <% if (audit.flagForReview) { %> checked <% } %>> <label class="form-check-label" for="flagForReviewTrue">
+        Flag this Audit for Review.
+      </label>
+    </div>
+
+    <!-- REMARKS -->
+    <div class="form-group">
+      <label for="auditorComments">Remarks: </label>
+      <textarea class="form-control" id="auditorComments" name="auditorComments"
+        rows="3"><%=audit.auditorComments%></textarea>
+    </div>
+
+    <!-- Audits conducted via this form are automatically marked as completed: -->
+    <input type="hidden" name="auditInProgress" value=0>
+
+    <button class="btn btn-warning btn-block">Edit Audit</button>
+  </form>
+</div>
+
+<%console.log(audit)%>
+<% include ../partials/footer %>

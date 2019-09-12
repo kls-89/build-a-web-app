@@ -26,6 +26,12 @@ router.post('/audits/new/bulk', adminController.postNewBulkAudit);
 
 router.post('/audits/new/bulk-generate-audits', adminController.postGenerateRandomAudits);
 
+// EDIT/UPDATE AUDIT
+router.get('/audits/:id/edit', adminController.getEditAudit);
+
+
+// AUTH
+
 // Create New User Account -- render form
 router.get("/add-user", adminController.getAddUser);
 // Create new User account -- handle post request

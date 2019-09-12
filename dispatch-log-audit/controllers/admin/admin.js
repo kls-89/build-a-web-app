@@ -9,8 +9,7 @@ exports.getIndex = (req, res, next) => {
     Audit
         .find({})
         .then(audits => {
-            console.log(audits);
-            return res.render("admin/index", {
+            res.render("admin/index", {
                 pageTitle: "Admin Index",
                 audits: audits
             })
@@ -166,6 +165,29 @@ exports.getShowAudit = (req, res, next) => {
         .catch(err => console.log(err));
 }
 
+
+exports.getEditAudit = (req, res, next) => {
+
+    Employee.find({})
+        .then(employees => {
+            const id = req.params.id;
+            Audit
+                .findById(id)
+                .then(audit => {
+                    res.render('admin/edit-audit', {
+                        pageTitle: "Edit Audit",
+                        audit: audit,
+                        employees: employees,
+                        currentYear: currentYear
+                    })
+                })
+                .catch(err => console.log(err))
+        })
+        .catch(err => console.log(err));
+}
+
+
+// AUTH
 exports.getAddUser = (req, res, next) => {
     res.render('admin/add-user', {
         pageTitle: 'Add New User'
