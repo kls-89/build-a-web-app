@@ -186,6 +186,11 @@ exports.getEditAudit = (req, res, next) => {
         .catch(err => console.log(err));
 }
 
+exports.postEditAudit = (req, res, next) => {
+    console.log(req.body);
+    res.redirect("back");
+}
+
 
 // AUTH
 exports.getAddUser = (req, res, next) => {

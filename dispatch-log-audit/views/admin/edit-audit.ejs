@@ -1,10 +1,12 @@
 <% include ../partials/header %>
 <div class="container">
   <h1 class="text-center">Edit Audit for Call # <%=audit.callNumber%></h1>
-  <p class="lead text-center">Use this form to audit a single call.</p>
+  <p class="lead text-center">Use this form to edit a single call.</p>
+
+  <p class="text-center text-danger lead"><%=audit.auditInProgress ? "In Progress" : null%></p>
 
 
-  <form action="/admin/audits" method="POST">
+  <form action="/admin/audits/<%=audit._id%>" method="POST">
     <div class="form-group">
       <label for="callNumber">Call Number:
         <%=currentYear%>-</label>
@@ -136,6 +138,4 @@
     <button class="btn btn-warning btn-block">Edit Audit</button>
   </form>
 </div>
-
-<%console.log(audit)%>
 <% include ../partials/footer %>

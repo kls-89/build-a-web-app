@@ -29,6 +29,8 @@ router.post('/audits/new/bulk-generate-audits', adminController.postGenerateRand
 // EDIT/UPDATE AUDIT
 router.get('/audits/:id/edit', adminController.getEditAudit);
 
+router.post('/audits/:id', adminController.postEditAudit);
+
 
 // AUTH
 
