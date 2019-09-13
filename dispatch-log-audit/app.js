@@ -7,18 +7,17 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-
 // ROUTES
 const employeeRoutes = require('./routes/employee/employee');
 const adminRoutes = require('./routes/admin/admin');
 const errorRoutes = require('./routes/error/404');
 
+// APPLICATION SETTINGS
 app.set('view engine', 'ejs');
-
 app.use(express.static(path.join(__dirname, 'public')));
-
 app.use(bodyParser.urlencoded({ extended: true }));
 
+// ROUTE MIDDLEWARE
 app.use('/admin', adminRoutes);
 app.use(employeeRoutes);
 

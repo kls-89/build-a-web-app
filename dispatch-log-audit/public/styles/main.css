@@ -1,3 +1,8 @@
-* {
-  background-color: #eee;
+.card {
+  box-shadow: 3px 6px 12px #ccc; 
+  margin: 2rem 0;
+}
+
+ul.list-group {
+  padding: 1rem 0;
 }

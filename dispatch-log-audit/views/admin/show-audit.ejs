@@ -1,67 +1,65 @@
 <% include ../partials/header %>
-  <h1 class="text-center">
-    <%=audit.callNumber%>
-  </h1>
-
-  <div class="card" style="margin-bottom: 1rem">
-    <!-- CARD HEADER -->
-    <% if (audit.criticalErrors) { %>
-      <div class="card-header">
-        <h2 class="text-center text-danger">CRITICAL</h2>
-      </div>
-      <% } %>
-        <!-- CARD BODY -->
-        <div class="card-body">
-          <h5 class="card-title">
-            <%=audit.callNumber%>
-          </h5>
-          <h6 class="card-subtitle">
-            Calltaker Name:
-            <%=audit.calltakerName%>
-          </h6>
-          <ul class="list-group list-group-flush">
-            <li class="list-group-item">
-              Call Date Entered Correctly:
-              <% if (audit.callDate) { %>
-                <i class="fas fa-check text-success"></i>
-                <% } else { %>
-                  <i class="fas fa-times text-danger"></i>
-                  <% } %>
-            </li>
-            <li class="list-group-item">
-              Call Reason Entered Correctly:
-              <% if (audit.callReason) { %>
-                <i class="fas fa-check text-success"></i>
-                <% } else { %>
-                  <i class="fas fa-times text-danger"></i>
-                  <% } %>
-            </li>
-            <li class="list-group-item">
-              Call Location Entered Correctly:
-              <% if (audit.callLocation) { %>
-                <i class="fas fa-check text-success"></i>
-                <% } else { %>
-                  <i class="fas fa-times text-danger"></i>
-                  <% } %>
-            </li>
-            <li class="list-group-item">
-              Call Action Code Entered Correctly:
-              <% if (audit.callAction) { %>
-                <i class="fas fa-check text-success"></i>
-                <% } else { %>
-                  <i class="fas fa-times text-danger"></i>
-                  <% } %>
-            </li>
-          </ul>
 
 
-          <p class="card-text">
-            <strong>
-              <em>Auditor Comments</em>
-            </strong>:
-            <%=audit.auditorComments%>
-          </p>
-        </div>
-        <a href="/admin/audits/<%=audit._id%>/edit" class="btn btn-warning">Edit Audit</a>
+<div class="card" style="margin-bottom: 1rem">
+  <!-- CARD HEADER -->
+  <% if (audit.criticalErrors) { %>
+  <div class="card-header">
+    <h2 class="text-center text-danger">CRITICAL</h2>
   </div>
-  <% include ../partials/footer %>
+  <% } %>
+  <!-- CARD BODY -->
+  <div class="card-body">
+    <h5 class="card-title text-center">
+      <%=audit.callNumber%>
+    </h5>
+    <h6 class="card-subtitle">
+      <strong><em>Calltaker Name</em></strong>:
+      <%=audit.calltakerName%>
+    </h6>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        Call Date Entered Correctly:
+        <% if (audit.callDate) { %>
+        <i class="fas fa-check text-success"></i>
+        <% } else { %>
+        <i class="fas fa-times text-danger"></i>
+        <% } %>
+      </li>
+      <li class="list-group-item">
+        Call Reason Entered Correctly:
+        <% if (audit.callReason) { %>
+        <i class="fas fa-check text-success"></i>
+        <% } else { %>
+        <i class="fas fa-times text-danger"></i>
+        <% } %>
+      </li>
+      <li class="list-group-item">
+        Call Location Entered Correctly:
+        <% if (audit.callLocation) { %>
+        <i class="fas fa-check text-success"></i>
+        <% } else { %>
+        <i class="fas fa-times text-danger"></i>
+        <% } %>
+      </li>
+      <li class="list-group-item">
+        Call Action Code Entered Correctly:
+        <% if (audit.callAction) { %>
+        <i class="fas fa-check text-success"></i>
+        <% } else { %>
+        <i class="fas fa-times text-danger"></i>
+        <% } %>
+      </li>
+    </ul>
+
+
+    <p class="card-text">
+      <strong>
+        <em>Auditor Comments</em>
+      </strong>:
+      <%=audit.auditorComments%>
+    </p>
+  </div>
+  <a href="/admin/audits/<%=audit._id%>/edit" class="btn btn-warning">Edit Audit</a>
+</div>
+<% include ../partials/footer %>
