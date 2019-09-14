@@ -1,5 +1,6 @@
 const bcrypt = require('bcryptjs');
 const moment = require('moment');
+const mongoose = require('mongoose');
 const currentYear = moment().format('YY');
 
 const Employee = require('../../models/employee');
@@ -141,15 +142,14 @@ exports.postGenerateRandomAudits = (req, res, next) => {
                 criticalErrors: false,
                 flagForReview: false,
                 auditorComments: "ENTER COMMENTS HERE",
-                // employeeId: employee._id
+                employeeId: null
             })
             .then(audits => {
                 console.log("BULK AUDITS CREATED")
-                res.redirect("/admin/audits");
             })
             .catch(err => console.log(err));
     }
-
+    return res.redirect("/admin/audits");
 };
 
 exports.getShowAudit = (req, res, next) => {
@@ -186,9 +186,89 @@ exports.getEditAudit = (req, res, next) => {
         .catch(err => console.log(err));
 }
 
-exports.postEditAudit = (req, res, next) => {
-    console.log(req.body);
-    res.redirect("back");
+exports.putEditAudit = (req, res, next) => {
+    // EDIT
+    const auditId = new mongoose.Types.ObjectId(req.params.id);
+
+    const updatedCallNumber = `${req.body.currentYear}-${req.body.callNumber}`;
+    const updatedCallDate = req.body.callDate;
+    const updatedCallReason = req.body.callReason;
+    const updatedCallLocation = req.body.callLocation;
+    const updatedCallAction = req.body.callAction;
+    const updatedCriticalErrors = req.body.criticalErrors;
+    const updatedFlagForReview = req.body.flagForReview || '0';
+    const updatedAuditorComments = req.body.auditorComments;
+    const updatedAuditInProgress = req.body.auditInProgress;
+
+    const updatedAudit = {
+        callNumber: updatedCallNumber,
+        callDate: updatedCallDate,
+        callReason: updatedCallReason,
+        callLocation: updatedCallLocation,
+        callAction: updatedCallAction,
+        criticalErrors: updatedCriticalErrors,
+        flagForReview: updatedFlagForReview,
+        auditorComments: updatedAuditorComments,
+        auditInProgress: updatedAuditInProgress
+    };
+
+    // If user leaves calltaker name select menu blank.
+    if (!req.body.calltakerName) {
+        console.log("NEED TO INPUT CALLTAKER NAME")
+        return res.redirect("back");
+    }
+    // Otherwise, assign this value to employeeId
+    const employeeId = new mongoose.Types.ObjectId(req.body.calltakerName);
+
+    Employee
+        .findById(employeeId)
+        .then(employee => {
+            // Add in Calltaker Name & Employee ID to the edited audit:
+            updatedAudit.calltakerName = `${employee.firstName} ${employee.lastName}`;
+            updatedAudit.employeeId = new mongoose.Types.ObjectId(employee._id);
+
+            // Push Audit number into Employee's audit hx if not already there.
+            if (!employee.auditHistory.includes(auditId)) {
+                employee.auditHistory.push(auditId);
+            };
+
+            employee.save();
+
+            return Audit.findByIdAndUpdate(auditId, updatedAudit, (err, document) => {
+                if (err) {
+                    console.log(err);
+                }
+            })
+        })
+        .catch(err => console.log(err));
+
+    // Grab original audit employee id if it exists.
+    let originalAuditEmployeeId;
+    if (req.body.originalAuditEmployeeId) {
+        originalAuditEmployeeId = new mongoose.Types.ObjectId(req.body.originalAuditEmployeeId);
+    }
+
+    // Remove audit ID from original employee record. This is to prevent the same audit belonging to 2 different users.
+    if (originalAuditEmployeeId) {
+        Employee
+            .findById(originalAuditEmployeeId)
+            .then(employee => {
+                let index = employee.auditHistory.indexOf(auditId);
+                if (index > -1) {
+                    employee.auditHistory.splice(index, 1);
+                    employee.save();
+                }
+            })
+            .catch(err => console.log(err));
+    }
+
+    return res.redirect(`/admin/audits/${auditId}`);
+
+}
+
+exports.deleteEditAudit = (req, res, next) => {
+    const id = req.params.id;
+    res.redirect('/admin/audits');
 }
 
 

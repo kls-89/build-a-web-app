@@ -6,7 +6,9 @@
   <p class="text-center text-danger lead"><%=audit.auditInProgress ? "In Progress" : null%></p>
 
 
-  <form action="/admin/audits/<%=audit._id%>" method="POST">
+  <form action="/admin/audits/<%=audit._id%>?_method=PUT" method="POST">
+    <input type="hidden" name="originalAuditEmployeeId" value="<%=audit.employeeId%>">
+
     <div class="form-group">
       <label for="callNumber">Call Number:
         <%=currentYear%>-</label>
@@ -135,7 +137,13 @@
     <!-- Audits conducted via this form are automatically marked as completed: -->
     <input type="hidden" name="auditInProgress" value=0>
 
-    <button class="btn btn-warning btn-block">Edit Audit</button>
+    <!-- EMPLOYEE ID -->
+    <input type="hidden" name="employeeId" value="<%=audit.employeeId%>">
+
+    <button class="btn btn-warning btn-block">Save Edits</button>
+  </form>
+  <form action="/admin/audits/<%=audit.id%>?_method=DELETE" method="POST">
+    <button class="btn btn-danger">Delete Audit</button>
   </form>
 </div>
 <% include ../partials/footer %>
