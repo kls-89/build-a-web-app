@@ -28,16 +28,14 @@ exports.postLogin = (req, res, next) => {
           if (doMatch) {
             req.session.isLoggedIn = true;
             req.session.employee = employee;
-            isAdmin = req.session.employee.isAdmin;
+
             return req.session.save(err => {
               if (err) {
                 console.log(err);
               }
-              // Redirect Admins to dashboard. Else, redirect to employee home
-              if (isAdmin) {
-                return res.redirect('/admin/audits')
-              }
-              res.redirect('/')
+
+              return res.redirect('/')
+
             });
           }
           // If passwords do not match

@@ -42,14 +42,12 @@ app.use(
 
 app.use((req, res, next) => {
 	if (!req.session.employee) {
-		console.log("NO USER SIGNED IN")
 		return next();
 	}
 	Employee
 		.findById(req.session.employee._id)
 		.then(employee => {
 			req.employee = employee;
-			console.log(req.employee)
 			next();
 		})
 		.catch(err => console.log(err));
@@ -73,7 +71,6 @@ mongoose
 function isAdmin(req, res, next) {
 	if (req.session.employee.isAdmin) {
 		return next();
-	} else {
-		res.send("UNAUTHORIZED");
 	}
+	res.redirect('/login');
 }
