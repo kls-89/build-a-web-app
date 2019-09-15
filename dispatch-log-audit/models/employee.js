@@ -25,6 +25,10 @@ const EmployeeSchema = new Schema({
       ref: 'Audit'
     }
   ],
+  isAdmin: {
+    type: Boolean,
+    default: false
+  }
 });
 
 module.exports = mongoose.model('Employee', EmployeeSchema);

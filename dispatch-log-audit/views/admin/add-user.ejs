@@ -1,7 +1,7 @@
 <% include ../partials/header %>
 <h1>Create New User</h1>
 
-<form action="/add-user" , method="POST">
+<form action="/admin/add-user" , method="POST">
   <div class="form-group">
     <label for="firstName">First Name</label>
     <input name="firstName" id="firstName" type="text" class="form-control" required>
@@ -22,6 +22,13 @@
   <div class="form-group">
     <label for="confirmPassword">Confirm Password</label>
     <input id="confirmPassword" name="confirmPassword" type="password" class="form-control" required>
+  </div>
+  <div class="form-check">
+    <input class="form-check-input" type="checkbox" name="isAdmin" id="isAdmin" value="1">
+    <label class="form-check-label" for="isAdmin">
+      Make User a Site Administrator. <span class="text-danger"><em>This will allow the user to create, view, modify,
+          and delete audits, as well as create new user accounts.</em></span>
+    </label>
   </div>
   <button class="btn btn-success">Create New User</button>
 </form>

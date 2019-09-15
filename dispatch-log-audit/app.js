@@ -56,14 +56,12 @@ app.use((req, res, next) => {
 });
 
 // ROUTE MIDDLEWARE
-app.use('/admin', adminRoutes);
+app.use('/admin', isAdmin, adminRoutes);
 app.use(employeeRoutes);
 app.use(authRoutes);
 app.use(errorController.get404);
 
 // DB CONNECTION
-
-
 mongoose
 	.connect(MONGODB_URI, { useNewUrlParser: true, dbName: 'BuildWebApp_DispatchLogAudit', useFindAndModify: false })
 	.then(() => {
@@ -71,3 +69,11 @@ mongoose
 		app.listen(3000, () => console.log("Server Running: Dispatch Log Audit"));
 	})
 	.catch(err => console.log("ERROR CONNECTING TO ATLAS CLUSTER", err));
+
+function isAdmin(req, res, next) {
+	if (req.session.employee.isAdmin) {
+		return next();
+	} else {
+		res.send("UNAUTHORIZED");
+	}
+}

@@ -4,7 +4,10 @@ const Employee = require('../../models/employee');
 exports.getLogin = (req, res, next) => {
   res.render('auth/login', {
     pageTitle: 'Login',
-    isAuthenticated: req.session.isLoggedIn
+    employeeName: null,
+    isAuthenticated: false,
+    isAdmin: req.session.isAdmin,
+    isLoggedIn: false
   });
 };
 
@@ -25,9 +28,14 @@ exports.postLogin = (req, res, next) => {
           if (doMatch) {
             req.session.isLoggedIn = true;
             req.session.employee = employee;
+            isAdmin = req.session.employee.isAdmin;
             return req.session.save(err => {
               if (err) {
                 console.log(err);
+              }
+              // Redirect Admins to dashboard. Else, redirect to employee home
+              if (isAdmin) {
+                return res.redirect('/admin/audits')
               }
               res.redirect('/')
             });
@@ -41,46 +49,6 @@ exports.postLogin = (req, res, next) => {
         })
     })
     .catch(err => console.log(err));
-}
-
-exports.getAddUser = (req, res, next) => {
-  res.render('auth/add-user', {
-    pageTitle: 'Add New User'
-  });
-}
-
-exports.postAddUser = (req, res, next) => {
-  const firstName = req.body.firstName;
-  const lastName = req.body.lastName;
-  const email = req.body.email;
-  const password = req.body.password;
-  const confirmPassword = req.body.confirmPassword;
-
-  Employee
-    .findOne({ email: email })
-    .then(checkEmployeeExists => {
-      if (checkEmployeeExists) {
-        // User Account exists
-        return res.redirect('/auth/add-user');
-      }
-      // else hash pw and create new user
-      return bcrypt
-        .hash(password, 12)
-        .then(hashedPassword => {
-          const employee = Employee.create({
-            email: email,
-            password: hashedPassword,
-            firstName: firstName,
-            lastName: lastName
-          });
-        })
-    })
-    .then(result => {
-      res.redirect('/');
-    })
-    .catch(err => {
-      console.log(err);
-    })
 }
 
 exports.logout = (req, res, next) => {

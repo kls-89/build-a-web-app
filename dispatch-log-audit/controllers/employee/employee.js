@@ -9,7 +9,9 @@ exports.getIndex = (req, res, next) => {
                 return res.render("employee/index", {
                     pageTitle: "Employee Home",
                     employeeName: req.session.employee.firstName,
-                    audits: audits
+                    audits: audits,
+                    isAdmin: req.session.employee.isAdmin,
+                    isLoggedIn: req.session.isLoggedIn
                 });
             })
             .catch(err => console.log(err));
@@ -25,7 +27,10 @@ exports.getShowAudit = (req, res, next) => {
         .then(audit => {
             res.render('employee/show-audit', {
                 pageTitle: "Audit",
-                audit: audit
+                audit: audit,
+                isAdmin: req.session.employee.isAdmin,
+                isLoggedIn: req.session.isLoggedIn,
+                employeeName: req.session.employee.firstName
             })
         })
         .catch(err => console.log(err));

@@ -1,5 +1,5 @@
 <% include ../partials/header %>
-<h1 class="text-center">Admin Index</h1>
+<h1 class="text-center">Admin Dashboard</h1>
 <div class="jumbotron text-center">
     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione accusantium esse aperiam id harum labore
         similique,
@@ -7,7 +7,7 @@
     <a class="btn btn-info" href="/admin/audits/new">Create New Audit</a>
     <a class="btn btn-info" href="/admin/audits/new/bulk">Create Multiple Audits</a>
 
-    <a href="/add-user" class="btn btn-primary">Add User</a>
+    <a href="/admin/add-user" class="btn btn-primary">Add User</a>
 </div>
 <% if (audits.length <= 0) {%>
 <h2 class="text-center">No Audits</h2>

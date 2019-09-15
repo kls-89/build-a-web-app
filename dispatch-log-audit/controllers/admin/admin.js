@@ -12,7 +12,10 @@ exports.getIndex = (req, res, next) => {
         .then(audits => {
             res.render("admin/index", {
                 pageTitle: "Admin Index",
-                audits: audits
+                audits: audits,
+                employeeName: req.session.employee.firstName,
+                isAdmin: req.session.isAdmin,
+                isLoggedIn: req.session.isLoggedIn
             })
         })
         .catch(err => console.log(err));
@@ -23,8 +26,11 @@ exports.getNewAudit = (req, res, next) => {
         .then(employees => {
             res.render('admin/new-audit', {
                 pageTitle: 'Create New Audit',
+                employeeName: req.session.employee.firstName,
                 currentYear: currentYear,
-                employees: employees
+                employees: employees,
+                isAdmin: req.session.isAdmin,
+                isLoggedIn: req.session.isLoggedIn
             })
         })
 }
@@ -74,7 +80,10 @@ exports.getNewBulkAudit = (req, res, next) => {
     res.render("admin/new-bulk-audit", {
         pageTitle: "Administrator | Bulk Add ",
         currentYear: currentYear,
-        submittedValues: false
+        employeeName: req.session.employee.firstName,
+        submittedValues: false,
+        isAdmin: req.session.isAdmin,
+        isLoggedIn: req.session.isLoggedIn
     });
 }
 
@@ -115,7 +124,10 @@ exports.postNewBulkAudit = (req, res, next) => {
         listOfRandomCallNumbers: listOfRandomCallNumbers,
         submittedValues: true,
         pageTitle: "Administrator | Bulk Add Audits",
+        employeeName: req.session.employee.firstName,
         currentYear: currentYear,
+        isAdmin: req.session.isAdmin,
+        isLoggedIn: req.session.isLoggedIn
     });
 }
 
@@ -159,7 +171,10 @@ exports.getShowAudit = (req, res, next) => {
         .then(audit => {
             res.render('admin/show-audit', {
                 pageTitle: "Audit",
-                audit: audit
+                audit: audit,
+                employeeName: req.session.employee.firstName,
+                isAdmin: req.session.isAdmin,
+                isLoggedIn: req.session.isLoggedIn
             })
         })
         .catch(err => console.log(err));
@@ -177,8 +192,11 @@ exports.getEditAudit = (req, res, next) => {
                     res.render('admin/edit-audit', {
                         pageTitle: "Edit Audit",
                         audit: audit,
+                        employeeName: req.session.employee.firstName,
                         employees: employees,
-                        currentYear: currentYear
+                        currentYear: currentYear,
+                        isAdmin: req.session.isAdmin,
+                        isLoggedIn: req.session.isLoggedIn
                     })
                 })
                 .catch(err => console.log(err))
@@ -272,3 +290,47 @@ exports.deleteEditAudit = (req, res, next) => {
 }
 
 
+exports.getAddUser = (req, res, next) => {
+    res.render('admin/add-user', {
+        pageTitle: 'Add New User',
+        isAdmin: req.session.isAdmin,
+        employeeName: req.session.employee.firstName,
+        isLoggedIn: req.session.isLoggedIn
+    });
+}
+
+exports.postAddUser = (req, res, next) => {
+    const firstName = req.body.firstName;
+    const lastName = req.body.lastName;
+    const email = req.body.email;
+    const password = req.body.password;
+    const confirmPassword = req.body.confirmPassword;
+    const isAdmin = req.body.isAdmin;
+
+    Employee
+        .findOne({ email: email })
+        .then(checkEmployeeExists => {
+            if (checkEmployeeExists) {
+                // User Account exists
+                return res.redirect('/admin/add-user');
+            }
+            // else hash pw and create new user
+            return bcrypt
+                .hash(password, 12)
+                .then(hashedPassword => {
+                    const employee = Employee.create({
+                        email: email,
+                        password: hashedPassword,
+                        firstName: firstName,
+                        lastName: lastName,
+                        isAdmin: isAdmin
+                    });
+                })
+        })
+        .then(result => {
+            res.redirect('/');
+        })
+        .catch(err => {
+            console.log(err);
+        })
+}
