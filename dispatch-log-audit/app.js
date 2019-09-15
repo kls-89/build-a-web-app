@@ -42,6 +42,7 @@ app.use(
 
 app.use((req, res, next) => {
 	if (!req.session.employee) {
+		console.log("NO USER SIGNED IN")
 		return next();
 	}
 	Employee
