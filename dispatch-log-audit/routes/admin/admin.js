@@ -28,18 +28,10 @@ router.post('/audits/new/bulk-generate-audits', adminController.postGenerateRand
 
 // EDIT/UPDATE AUDIT
 router.get('/audits/:id/edit', adminController.getEditAudit);
-
 router.put('/audits/:id', adminController.putEditAudit);
 
 
 // DELETE AUDIT
 router.delete('/audits/:id', adminController.deleteEditAudit)
-
-// AUTH
-
-// Create New User Account -- render form
-router.get("/add-user", adminController.getAddUser);
-// Create new User account -- handle post request
-router.post("/add-user", adminController.postAddUser);
 
 module.exports = router;
