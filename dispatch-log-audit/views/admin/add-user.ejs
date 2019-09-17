@@ -1,4 +1,11 @@
 <% include ../partials/header %>
+
+<% if (message) { %>
+<div class="alert alert-danger" role="alert">
+  <%=message%>
+</div>
+<% } %>
+
 <h1>Create New User</h1>
 
 <form action="/admin/add-user" , method="POST">

@@ -1,4 +1,9 @@
 <% include ../partials/header %>
+<% if (message) { %>
+<div class="alert alert-success text-center" role="alert">
+    <%=message%>
+</div>
+<% } %>
 <h1 class="text-center">Admin Dashboard</h1>
 <div class="jumbotron text-center">
     <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione accusantium esse aperiam id harum labore

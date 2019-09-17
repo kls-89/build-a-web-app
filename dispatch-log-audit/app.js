@@ -3,6 +3,7 @@ require('dotenv').config();
 const path = require('path');
 const express = require('express');
 const bodyParser = require('body-parser');
+const flash = require('connect-flash')
 const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const session = require('express-session');
@@ -41,6 +42,7 @@ app.use(
 	})
 );
 
+app.use(flash());
 app.use((req, res, next) => {
 	if (!req.session.employee) {
 		return next();

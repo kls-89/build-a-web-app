@@ -7,6 +7,12 @@ const Employee = require('../../models/employee');
 const Audit = require('../../models/audit');
 
 exports.getIndex = (req, res, next) => {
+    let message = req.flash('success');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     Audit
         .find({})
         .then(audits => {
@@ -15,7 +21,8 @@ exports.getIndex = (req, res, next) => {
                 audits: audits,
                 employeeName: req.session.employee.firstName,
                 isAdmin: req.session.isAdmin,
-                isLoggedIn: req.session.isLoggedIn
+                isLoggedIn: req.session.isLoggedIn,
+                message: message
             })
         })
         .catch(err => console.log(err));
@@ -291,11 +298,19 @@ exports.deleteEditAudit = (req, res, next) => {
 
 
 exports.getAddUser = (req, res, next) => {
+    let message = req.flash('error');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+
     res.render('admin/add-user', {
         pageTitle: 'Add New User',
         isAdmin: req.session.isAdmin,
         employeeName: req.session.employee.firstName,
-        isLoggedIn: req.session.isLoggedIn
+        isLoggedIn: req.session.isLoggedIn,
+        message: message
     });
 }
 
@@ -312,6 +327,7 @@ exports.postAddUser = (req, res, next) => {
         .then(checkEmployeeExists => {
             if (checkEmployeeExists) {
                 // User Account exists
+                req.flash('error', "Email address already exists.");
                 return res.redirect('/admin/add-user');
             }
             // else hash pw and create new user

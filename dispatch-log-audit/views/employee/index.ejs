@@ -1,7 +1,13 @@
 <% include ../partials/header %>
-<div class="container">
-  <h1 class="text-center">Welcome, <%=employeeName%></h1>
+<% if (message) { %>
+<div class="alert alert-success text-center" role="alert">
+  <%=`${message} ${employeeName}`%>
 </div>
+<% } else { %>
+<h1 class="text-center">Welcome, <%=employeeName%></h1>
+<% } %>
+
+
 
 <div class="jumbotron text-center">
   <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione accusantium esse aperiam id harum labore

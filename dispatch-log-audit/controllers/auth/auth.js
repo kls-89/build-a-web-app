@@ -2,13 +2,20 @@ const bcrypt = require('bcryptjs');
 const Employee = require('../../models/employee');
 
 exports.getLogin = (req, res, next) => {
+  let message = req.flash('error');
+  if (message.length > 0) {
+    message = message[0];
+  } else {
+    message = null;
+  }
 
   res.render('auth/login', {
     pageTitle: 'Login',
     employeeName: null,
     isAuthenticated: false,
     isLoggedIn: false,
-    isAdmin: false
+    isAdmin: false,
+    errorMessage: message
   });
 };
 
@@ -21,6 +28,7 @@ exports.postLogin = (req, res, next) => {
     .then(employee => {
       if (!employee) {
         // If user isn't found in DB
+        req.flash('error', 'Invalid email or password.');
         return res.redirect('/login')
       }
       // Email exists at this point. Now validate pw.
@@ -37,8 +45,10 @@ exports.postLogin = (req, res, next) => {
               }
 
               if (req.session.isAdmin) {
+                req.flash('success', 'Logged in as a Site Administrator.');
                 return res.redirect('/admin/audits');
               } else {
+                req.flash('success', 'Welcome Back.');
                 return res.redirect('/')
               }
 
@@ -46,6 +56,7 @@ exports.postLogin = (req, res, next) => {
             });
           }
           // If passwords do not match
+          req.flash('error', 'Invalid email or password');
           res.redirect('/login')
         })
         .catch(err => {

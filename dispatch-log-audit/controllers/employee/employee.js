@@ -1,6 +1,12 @@
 const Audit = require('../../models/audit');
 const Employee = require('../../models/employee');
 exports.getIndex = (req, res, next) => {
+    let message = req.flash('success');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     // Show Employee home page only if logged in; otherwise, redirect to login form.
     if (req.session.employee) {
         console.log(req.session.employee);
@@ -12,7 +18,8 @@ exports.getIndex = (req, res, next) => {
                     employeeName: req.session.employee.firstName,
                     audits: audits,
                     isAdmin: req.session.isAdmin,
-                    isLoggedIn: req.session.isLoggedIn
+                    isLoggedIn: req.session.isLoggedIn,
+                    message: message
                 });
             })
             .catch(err => console.log(err));

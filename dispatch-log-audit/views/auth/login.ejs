@@ -1,4 +1,9 @@
 <% include ../partials/header %>
+<% if (errorMessage) { %>
+<div class="alert alert-danger" role="alert">
+  <%=errorMessage%>
+</div>
+<% } %>
 <h1>Login</h1>
 
 <form action="/login" method="POST">
