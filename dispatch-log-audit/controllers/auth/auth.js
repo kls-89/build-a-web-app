@@ -2,12 +2,13 @@ const bcrypt = require('bcryptjs');
 const Employee = require('../../models/employee');
 
 exports.getLogin = (req, res, next) => {
+
   res.render('auth/login', {
     pageTitle: 'Login',
     employeeName: null,
     isAuthenticated: false,
-    isAdmin: req.session.isAdmin,
-    isLoggedIn: false
+    isLoggedIn: false,
+    isAdmin: false
   });
 };
 
@@ -28,13 +29,19 @@ exports.postLogin = (req, res, next) => {
           if (doMatch) {
             req.session.isLoggedIn = true;
             req.session.employee = employee;
+            req.session.isAdmin = employee.isAdmin;
 
             return req.session.save(err => {
               if (err) {
                 console.log(err);
               }
 
-              return res.redirect('/')
+              if (req.session.isAdmin) {
+                return res.redirect('/admin/audits');
+              } else {
+                return res.redirect('/')
+              }
+
 
             });
           }

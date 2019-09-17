@@ -3,6 +3,7 @@ const Employee = require('../../models/employee');
 exports.getIndex = (req, res, next) => {
     // Show Employee home page only if logged in; otherwise, redirect to login form.
     if (req.session.employee) {
+        console.log(req.session.employee);
         const id = req.session.employee._id;
         Audit.find({ employeeId: id })
             .then(audits => {
@@ -10,7 +11,7 @@ exports.getIndex = (req, res, next) => {
                     pageTitle: "Employee Home",
                     employeeName: req.session.employee.firstName,
                     audits: audits,
-                    isAdmin: req.session.employee.isAdmin,
+                    isAdmin: req.session.isAdmin,
                     isLoggedIn: req.session.isLoggedIn
                 });
             })
@@ -28,7 +29,7 @@ exports.getShowAudit = (req, res, next) => {
             res.render('employee/show-audit', {
                 pageTitle: "Audit",
                 audit: audit,
-                isAdmin: req.session.employee.isAdmin,
+                isAdmin: req.session.isAdmin,
                 isLoggedIn: req.session.isLoggedIn,
                 employeeName: req.session.employee.firstName
             })

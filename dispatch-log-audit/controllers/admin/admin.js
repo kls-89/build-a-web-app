@@ -67,7 +67,7 @@ exports.postNewAudit = (req, res, next) => {
             }).then(audit => {
                 employee.auditHistory.push(audit._id);
                 employee.save();
-                return res.redirect("/admin/audits/new");
+                return res.redirect("/admin/audits");
             })
         })
         .catch(err => console.log(err))

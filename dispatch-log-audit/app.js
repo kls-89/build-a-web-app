@@ -7,8 +7,9 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-
+const isAdmin = require('./middleware/isAdmin');
 const errorController = require('./controllers/error/404');
+
 const Employee = require('./models/employee');
 
 const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PW}@webdev-cluster-kls-qduay.mongodb.net/test?retryWrites=true&w=majority`;
@@ -68,9 +69,4 @@ mongoose
 	})
 	.catch(err => console.log("ERROR CONNECTING TO ATLAS CLUSTER", err));
 
-function isAdmin(req, res, next) {
-	if (req.session.employee.isAdmin) {
-		return next();
-	}
-	res.redirect('/login');
-}
+
