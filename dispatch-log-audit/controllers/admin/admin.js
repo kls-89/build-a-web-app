@@ -16,6 +16,7 @@ exports.getIndex = (req, res, next) => {
     Audit
         .find({})
         .then(audits => {
+            console.log(audits);
             res.render("admin/index", {
                 pageTitle: "Admin Index",
                 audits: audits,
@@ -223,7 +224,14 @@ exports.putEditAudit = (req, res, next) => {
     const updatedCriticalErrors = req.body.criticalErrors;
     const updatedFlagForReview = req.body.flagForReview || '0';
     const updatedAuditorComments = req.body.auditorComments;
-    const updatedAuditInProgress = req.body.auditInProgress;
+    let updatedAuditInProgress = req.body.auditInProgress || 1;
+    let updatedAuditStatus;
+
+    if (updatedAuditInProgress == 0) {
+        updatedAuditStatus = "CLOSED";
+    } else {
+        updatedAuditStatus = "OPEN";
+    }
 
     const updatedAudit = {
         callNumber: updatedCallNumber,
@@ -234,8 +242,12 @@ exports.putEditAudit = (req, res, next) => {
         criticalErrors: updatedCriticalErrors,
         flagForReview: updatedFlagForReview,
         auditorComments: updatedAuditorComments,
-        auditInProgress: updatedAuditInProgress
+        auditInProgress: updatedAuditInProgress,
+        auditStatus: updatedAuditStatus
     };
+
+    console.log(`audit in progress: ${updatedAudit.auditInProgress}`)
+    console.log(`audit status: ${updatedAudit.auditStatus}`)
 
     // If user leaves calltaker name select menu blank.
     if (!req.body.calltakerName) {
@@ -263,6 +275,8 @@ exports.putEditAudit = (req, res, next) => {
                 if (err) {
                     console.log(err);
                 }
+                console.log('line 274')
+                console.log(document);
             })
         })
         .catch(err => console.log(err));

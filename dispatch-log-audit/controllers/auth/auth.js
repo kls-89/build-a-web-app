@@ -48,7 +48,7 @@ exports.postLogin = (req, res, next) => {
                 req.flash('success', 'Logged in as a Site Administrator.');
                 return res.redirect('/admin/audits');
               } else {
-                req.flash('success', 'Welcome Back.');
+                req.flash('success', 'Welcome Back,');
                 return res.redirect('/')
               }
 

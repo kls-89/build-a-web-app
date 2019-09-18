@@ -134,14 +134,22 @@
         rows="3"><%=audit.auditorComments%></textarea>
     </div>
 
-    <!-- Audits conducted via this form are automatically marked as completed: -->
-    <input type="hidden" name="auditInProgress" value=0>
-
     <!-- EMPLOYEE ID -->
     <input type="hidden" name="employeeId" value="<%=audit.employeeId%>">
 
+
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" name="auditInProgress" id="auditInProgress" value="0"
+        <% if (!audit.auditInProgress) { %> checked <% } %>> <label class="form-check-label" for="auditInProgress">
+        Mark this Audit as Complete.
+      </label>
+    </div>
+
+
     <button class="btn btn-warning btn-block">Save Edits</button>
   </form>
+
+  <!-- DELETE -->
   <form action="/admin/audits/<%=audit.id%>?_method=DELETE" method="POST">
     <button class="btn btn-danger">Delete Audit</button>
   </form>
