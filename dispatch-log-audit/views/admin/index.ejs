@@ -17,50 +17,57 @@
 <% if (audits.length <= 0) {%>
 <h2 class="text-center">No Audits</h2>
 <%} else {%>
-        <%  audits.forEach(audit => { %>
-        <div class="card" style="margin-bottom: 1rem">
-            <!-- CARD HEADER -->
-            <div class=" card-header">
-                <% if (audit.auditInProgress) { %>
-                <h4 class="text-center text-warning">
-                    <i class="fas fa-edit"></i>
-                    In Progress
-                </h4>
-                <%  } else { %>
-                <h4 class="text-center text-success">
-                    <i class="fas fa-edit"></i>
-                    Audit Complete
-                </h4>
-                <%   } %>
+<h2 class="text-center">Viewing All <%=audits.length%> Audits</h2>
+<%  audits.forEach(audit => { %>
+<!-- Add class to differentiate which audits are closed. -->
+<div class="card 
+<% if (!audit.auditInProgress) { %>
+    <%="audit-complete"%>
+    <%}%>" 
+    style="margin-bottom: 1rem">
+    <!-- CARD HEADER -->
+    <div class=" card-header">
+        <% if (audit.auditInProgress) { %>
+        <h4 class=" text-center text-warning">
+    <i class="fas fa-edit"></i>
 
-                <% if (audit.criticalErrors) { %>
-                <h4 class="text-center text-danger">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    Critical Errors Found
-                </h4>
-                <% } else { %>
-                <h4 class="text-center text-success">No Critical Errors Found
-                    <i class="fas fa-check"></i>
-                </h4>
+    In Progress
+    </h4>
+    <%  } else { %>
+    <h4 class="text-center text-success">
+        <i class="fas fa-edit"></i>
+        Audit Complete
+    </h4>
+    <%   } %>
 
-                <% } %>
-            </div>
-            <!-- CARD BODY -->
-            <div class="card-body">
-                <h5 class="card-title text-center">
-                    <%=audit.callNumber%>
-                </h5>
-                <h6 class="card-subtitle">
-                    <strong>Calltaker Name</strong>:
-                    <%=audit.calltakerName%>
-                </h6>
-                <p class="card-body">Audit Status:
-                    <%=audit.auditStatus%>
-                </p>
-            </div>
-            <a href="/admin/audits/<%=audit._id%>" class="btn btn-info">View Audit</a>
-        </div>
-        <%   }) %>
+    <% if (audit.criticalErrors) { %>
+    <h4 class="text-center text-danger">
+        <i class="fas fa-exclamation-triangle"></i>
+        Critical Errors Found
+    </h4>
+    <% } else { %>
+    <h4 class="text-center text-success">No Critical Errors Found
+        <i class="fas fa-check"></i>
+    </h4>
+
+    <% } %>
+</div>
+<!-- CARD BODY -->
+<div class="card-body">
+    <h5 class="card-title text-center">
+        <%=audit.callNumber%>
+    </h5>
+    <h6 class="card-subtitle">
+        <strong>Calltaker Name</strong>:
+        <%=audit.calltakerName%>
+    </h6>
+    <p class="card-body">Audit Status:
+        <%=audit.auditStatus%>
+    </p>
+</div>
+<a href="/admin/audits/<%=audit._id%>" class="btn btn-info">View Audit</a>
+</div>
+<%   }) %>
 <%}%>
 
 

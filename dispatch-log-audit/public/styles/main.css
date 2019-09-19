@@ -3,6 +3,13 @@
   margin: 2rem 0;
 }
 
+.audit-complete {
+ background-color:#ddd;
+ opacity: 0.5;
+ font-style: italic
+}
+
 ul.list-group {
   padding: 1rem 0;
 }
+
