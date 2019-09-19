@@ -1,3 +1,12 @@
+const nodemailer = require('nodemailer');
+const transport = require('nodemailer-sendgrid-transport');
+const webAppURL = 'http://localhost:3000'
+const sendGrid = nodemailer.createTransport(transport({
+    auth: {
+        api_key: process.env.SENDGRID_API
+    }
+}))
+
 const bcrypt = require('bcryptjs');
 const moment = require('moment');
 const mongoose = require('mongoose');
@@ -246,9 +255,6 @@ exports.putEditAudit = (req, res, next) => {
         auditStatus: updatedAuditStatus
     };
 
-    console.log(`audit in progress: ${updatedAudit.auditInProgress}`)
-    console.log(`audit status: ${updatedAudit.auditStatus}`)
-
     // If user leaves calltaker name select menu blank.
     if (!req.body.calltakerName) {
         console.log("NEED TO INPUT CALLTAKER NAME")
@@ -336,6 +342,12 @@ exports.postAddUser = (req, res, next) => {
     const confirmPassword = req.body.confirmPassword;
     const isAdmin = req.body.isAdmin;
 
+    if (password !== confirmPassword) {
+        // Password validation -- plaintext??
+        req.flash('error', "Passwords do not match. Please try again.");
+        return res.redirect('/admin/add-user');
+    }
+
     Employee
         .findOne({ email: email })
         .then(checkEmployeeExists => {
@@ -348,17 +360,40 @@ exports.postAddUser = (req, res, next) => {
             return bcrypt
                 .hash(password, 12)
                 .then(hashedPassword => {
-                    const employee = Employee.create({
+                    return Employee.create({
                         email: email,
                         password: hashedPassword,
                         firstName: firstName,
                         lastName: lastName,
                         isAdmin: isAdmin
                     });
-                })
+                }).then(newEmployee => {
+                    // Send email to new user
+                    const email = {
+                        to: newEmployee.email,
+                        from: 'doNotReply@AuditLog.com',
+                        subject: `User Account Created | ${newEmployee.firstName} ${newEmployee.lastName}`,
+                        html: `
+                        <h1>Welcome, ${newEmployee.firstName}!</h1>
+                        <p>A new AuditLog account has been created for ${newEmployee.firstName} ${newEmployee.lastName}.</p>
+                        <p><strong>Please Note</strong>: This was not done by you; rather, your Agency's Administrator took this action.</p>
+                        <p>The dispatch log must be audited to ensure that records are accurate and complete. AuditLog is a platform that allows for an Agency Administrator to document log audits and to share these audits with each employee.</p>
+
+                        <p><strong>Access Level</strong>: You have been given ${newEmployee.isAdmin ? "<strong>Site Administrator</strong> access. You are authorized to view all audits, create new audits, edit existing audits, or delete them. You are also authorized to create and maintain user accounts." : "<strong>Employee</strong> access. You are authorized to view your own audits and communicate with the auditor about particular reports."}</p>
+                        <p><a href="${webAppURL}">Click this link to login to the site</a>. You will need to contact your Agency Administrator for your password.</p>
+                        `};
+
+                    sendGrid.sendMail(email, (err, res) => {
+                        if (err) {
+                            console.log(err);
+                        }
+                        console.log(res);
+                    })
+                    console.log("USR ADDED", newEmployee);
+                }).catch(err => console.log(err))
         })
         .then(result => {
-            res.redirect('/');
+            res.redirect('/admin/audits');
         })
         .catch(err => {
             console.log(err);
