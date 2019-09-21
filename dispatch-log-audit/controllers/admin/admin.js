@@ -16,27 +16,95 @@ const Employee = require('../../models/employee');
 const Audit = require('../../models/audit');
 
 exports.getIndex = (req, res, next) => {
+
     let message = req.flash('success');
     if (message.length > 0) {
         message = message[0];
     } else {
         message = null;
     }
-    Audit
+    Employee
         .find({})
+        .then(employees => {
+
+            Audit
+                .find({})
+                .then(audits => {
+                    res.render("admin/index", {
+                        pageTitle: "Admin Index",
+                        audits: audits,
+                        employeeName: req.session.employee.firstName,
+                        isAdmin: req.session.isAdmin,
+                        isLoggedIn: req.session.isLoggedIn,
+                        message: message,
+                        employees: employees
+                    })
+                })
+                .catch(err => console.log(err));
+        })
+        .catch(err => console.log(err))
+}
+
+
+// Render custom views to dashboard to allow user to sort.
+exports.getSortBy = (req, res, next) => {
+    const searchTerm = req.query.sortBy;
+    let mongoFind = {};
+    switch (searchTerm) {
+        case 'flagForReview':
+            mongoFind.flagForReview = true;
+            break;
+        case 'auditStatusOpen':
+            mongoFind.auditStatus = 'OPEN';
+            break;
+        case 'auditStatusClosed':
+            mongoFind.auditStatus = 'CLOSED';
+            break;
+        case 'unassigned':
+            mongoFind.employeeId = null;
+            break;
+        case 'criticalErrors':
+            mongoFind.criticalErrors = true;
+            break;
+        case 'showAllAudits':
+            break;
+    }
+    Audit.find(mongoFind)
         .then(audits => {
-            console.log(audits);
             res.render("admin/index", {
-                pageTitle: "Admin Index",
+                pageTitle: "Admin Index | Sort",
                 audits: audits,
                 employeeName: req.session.employee.firstName,
                 isAdmin: req.session.isAdmin,
                 isLoggedIn: req.session.isLoggedIn,
-                message: message
+                message: null
             })
         })
         .catch(err => console.log(err));
 }
+
+// SORT AUDITS BY EMPLOYEE
+exports.getSortByEmployee = (req, res, next) => {
+    const searchTerm = new mongoose.Types.ObjectId(req.query.sortByEmployee);
+
+    console.log(searchTerm)
+
+    Audit.find({ employeeId: searchTerm })
+        .then(audits => {
+            return res.render("admin/index", {
+                pageTitle: "Employee View",
+                employeeName: req.session.employee.firstName,
+                audits: audits,
+                isAdmin: req.session.isAdmin,
+                isLoggedIn: req.session.isLoggedIn,
+                message: null,
+                employees: ['1']
+            })
+        })
+        .catch(err => console.log(err));
+}
+
+
 
 exports.getNewAudit = (req, res, next) => {
     Employee.find({})

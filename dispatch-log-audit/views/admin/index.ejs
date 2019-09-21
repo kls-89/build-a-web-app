@@ -14,10 +14,58 @@
 
     <a href="/admin/add-user" class="btn btn-primary">Add User</a>
 </div>
-<% if (audits.length <= 0) {%>
-<h2 class="text-center">No Audits</h2>
-<%} else {%>
-<h2 class="text-center">Viewing All <%=audits.length%> Audits</h2>
+
+<header>
+    <!-- Sort Audits -->
+    <form action="/admin/sort-by" method="GET">
+        <div class="form-group">
+            <label for="sortBy">Sort by:</label>
+            <select class="form-control" id="sortBy" name="sortBy">
+                <option value="" selected disabled>
+                    Select Sort By Criteria
+                </option>
+                <option value="flagForReview">
+                    Flagged for Review
+                </option>
+                <option value="auditStatusOpen">Open Audits</option>
+                <option value="auditStatusClosed">Closed Audits</option>
+                <option value="unassigned">Unassigned Audits</option>
+                <option value="criticalErrors">Critical Audit Errors</option>
+                <option value="showAllAudits">Show All Audits</option>
+            </select>
+        </div>
+        <button class="btn btn-info">View</button>
+    </form>
+
+
+    <form action="/admin/sort-by-employee" method="GET">
+        <label for="sortByEmployee">View Single Employee's Audits:</label>
+        <select class="form-control" id="sortByEmployee" name="sortByEmployee">
+            <option value="" selected disabled>
+                Select Employee
+            </option>
+
+            <% employees.forEach(employee => { %>
+            <option value="<%=employee._id%>">
+                <%=employee.firstName%>
+                <%=employee.lastName%>
+
+            </option>
+            <%  }) %>
+        </select>
+        </div>
+
+        <button class="btn btn-info">View</button>
+    </form>
+
+    <% if (audits.length <= 0) {%>
+    <h2 class="text-center">No Audits</h2>
+    <%} else {%>
+    <h2 class="text-center">Viewing All <%=audits.length%> Audits</h2>
+</header>
+
+
+
 <%  audits.forEach(audit => { %>
 <!-- Add class to differentiate which audits are closed. -->
 <div class="card 
