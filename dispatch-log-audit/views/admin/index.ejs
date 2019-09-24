@@ -34,25 +34,27 @@
                 <option value="showAllAudits">Show All Audits</option>
             </select>
         </div>
-        <button class="btn btn-info">View</button>
+        <button class="btn btn-info">Sort</button>
     </form>
 
 
     <form action="/admin/sort-by-employee" method="GET">
-        <label for="sortByEmployee">View Single Employee's Audits:</label>
-        <select class="form-control" id="sortByEmployee" name="sortByEmployee">
-            <option value="" selected disabled>
-                Select Employee
-            </option>
+        <div class="form-group">
 
-            <% employees.forEach(employee => { %>
-            <option value="<%=employee._id%>">
-                <%=employee.firstName%>
-                <%=employee.lastName%>
+            <label for="sortByEmployee">View Single Employee's Audits:</label>
+            <select class="form-control" id="sortByEmployee" name="sortByEmployee">
+                <option value="" selected disabled>
+                    Select Employee
+                </option>
 
-            </option>
-            <%  }) %>
-        </select>
+                <% employees.forEach(employee => { %>
+                <option value="<%=employee._id%>">
+                    <%=employee.firstName%>
+                    <%=employee.lastName%>
+
+                </option>
+                <%  }) %>
+            </select>
         </div>
 
         <button class="btn btn-info">View</button>
@@ -61,7 +63,13 @@
     <% if (audits.length <= 0) {%>
     <h2 class="text-center">No Audits</h2>
     <%} else {%>
-    <h2 class="text-center">Viewing All <%=audits.length%> Audits</h2>
+    <h2 class="text-center">Viewing
+        <% if (audits.length > 1) { %>
+        All <%=audits.length%> Audits
+        <% } else { %>
+        <%=audits.length%> Audit
+        <% } %>
+    </h2>
 </header>
 
 

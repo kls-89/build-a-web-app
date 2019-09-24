@@ -26,7 +26,6 @@ exports.getIndex = (req, res, next) => {
     Employee
         .find({})
         .then(employees => {
-
             Audit
                 .find({})
                 .then(audits => {
@@ -37,7 +36,7 @@ exports.getIndex = (req, res, next) => {
                         isAdmin: req.session.isAdmin,
                         isLoggedIn: req.session.isLoggedIn,
                         message: message,
-                        employees: employees
+                        employees: employees || null
                     })
                 })
                 .catch(err => console.log(err));
@@ -69,39 +68,45 @@ exports.getSortBy = (req, res, next) => {
         case 'showAllAudits':
             break;
     }
-    Audit.find(mongoFind)
-        .then(audits => {
-            res.render("admin/index", {
-                pageTitle: "Admin Index | Sort",
-                audits: audits,
-                employeeName: req.session.employee.firstName,
-                isAdmin: req.session.isAdmin,
-                isLoggedIn: req.session.isLoggedIn,
-                message: null
-            })
-        })
-        .catch(err => console.log(err));
+    Employee.find({})
+        .then(employees => {
+            Audit.find(mongoFind)
+                .then(audits => {
+                    res.render("admin/index", {
+                        pageTitle: "Admin Index | Sort",
+                        audits: audits,
+                        employeeName: req.session.employee.firstName,
+                        isAdmin: req.session.isAdmin,
+                        isLoggedIn: req.session.isLoggedIn,
+                        message: null,
+                        employees: employees
+                    })
+                })
+                .catch(err => console.log(err));
+        }).catch(err => console.log(err))
+
 }
 
 // SORT AUDITS BY EMPLOYEE
 exports.getSortByEmployee = (req, res, next) => {
     const searchTerm = new mongoose.Types.ObjectId(req.query.sortByEmployee);
-
-    console.log(searchTerm)
-
-    Audit.find({ employeeId: searchTerm })
-        .then(audits => {
-            return res.render("admin/index", {
-                pageTitle: "Employee View",
-                employeeName: req.session.employee.firstName,
-                audits: audits,
-                isAdmin: req.session.isAdmin,
-                isLoggedIn: req.session.isLoggedIn,
-                message: null,
-                employees: ['1']
-            })
-        })
-        .catch(err => console.log(err));
+    Employee
+        .find({})
+        .then(employees => {
+            Audit.find({ employeeId: searchTerm })
+                .then(audits => {
+                    return res.render("admin/index", {
+                        pageTitle: "Employee View",
+                        employeeName: req.session.employee.firstName,
+                        audits: audits,
+                        isAdmin: req.session.isAdmin,
+                        isLoggedIn: req.session.isLoggedIn,
+                        message: null,
+                        employees: employees
+                    })
+                })
+                .catch(err => console.log(err));
+        }).catch(err => console.log(err))
 }
 
 
