@@ -9,7 +9,6 @@ exports.getIndex = (req, res, next) => {
     }
     // Show Employee home page only if logged in; otherwise, redirect to login form.
     if (req.session.employee) {
-        console.log(req.session.employee);
         const id = req.session.employee._id;
         Audit.find({ employeeId: id })
             .then(audits => {
@@ -27,6 +26,31 @@ exports.getIndex = (req, res, next) => {
         return res.redirect('/login');
     }
 }
+
+// Render custom views to dashboard to allow user to sort.
+exports.getSortBy = (req, res, next) => {
+    const id = req.session.employee._id;
+    Audit.find({ employeeId: id, flagForReview: true })
+        .then(audits => {
+            console.log(audits)
+            res.render("employee/index", {
+                pageTitle: "Audits Flagged for Review",
+                audits: audits,
+                employeeName: req.session.employee.firstName,
+                isAdmin: req.session.isAdmin,
+                isLoggedIn: req.session.isLoggedIn,
+                message: null
+            })
+        })
+        .catch(err => console.log(err));
+
+}
+
+
+
+
+
+
 
 exports.getShowAudit = (req, res, next) => {
     const id = req.params.id;
