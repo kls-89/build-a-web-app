@@ -57,6 +57,7 @@ exports.getShowAudit = (req, res, next) => {
     Audit
         .findById(id)
         .then(audit => {
+            console.log(audit);
             res.render('employee/show-audit', {
                 pageTitle: "Audit",
                 audit: audit,
@@ -66,4 +67,25 @@ exports.getShowAudit = (req, res, next) => {
             })
         })
         .catch(err => console.log(err));
+}
+
+exports.postShowAudit = (req, res, next) => {
+    const id = req.params.id;
+    const employeeComments = req.body.employeeComments;
+
+    let employeeReviewedAudit = req.body.employeeReviewedAudit;
+    if (employeeReviewedAudit) {
+        employeeReviewedAudit = true;
+    } else {
+        employeeReviewedAudit = false;
+    }
+
+    Audit
+        .findByIdAndUpdate(id, { employeeComments: employeeComments, employeeReviewedAudit: employeeReviewedAudit }, (err, audit) => {
+            if (err) {
+                console.log(err);
+            }
+            return res.redirect("/")
+        });
+
 }

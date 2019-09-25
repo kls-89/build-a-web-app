@@ -1,8 +1,12 @@
 const bcrypt = require('bcryptjs');
 const Employee = require('../../models/employee');
 
+console.log('in the auth routes')
+
 exports.getLogin = (req, res, next) => {
+  console.log(req.loggedOut)
   let message = req.flash('error');
+
   if (message.length > 0) {
     message = message[0];
   } else {
@@ -68,10 +72,11 @@ exports.postLogin = (req, res, next) => {
 }
 
 exports.logout = (req, res, next) => {
+
   req.session.destroy(err => {
     if (err) {
       console.log(err);
     }
-    res.redirect('/');
-  })
+    return res.set('loggedOut', true).redirect('/login')
+  });
 }

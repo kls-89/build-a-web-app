@@ -18,9 +18,6 @@
 </div>
 
 
-
-
-
 <% if (audits.length <= 0) {%>
 <h2 class="text-center">No Audits</h2>
 <%} else {%>
@@ -42,7 +39,7 @@
         <% if (audit.auditInProgress) { %>
         <h4 class="text-center text-warning">
           <i class="fas fa-edit"></i>
-          In Progress
+          Audit In Progress
         </h4>
         <%  } else { %>
         <h4 class="text-center text-success">
@@ -57,8 +54,8 @@
           Critical Errors Found
         </h4>
         <% } else { %>
-        <h4 class="text-center text-success">No Critical Errors Found
-          <i class="fas fa-check"></i>
+        <h4 class="text-center text-success"><i class="fas fa-check"></i>
+          No Critical Errors Found
         </h4>
 
         <% } %>
@@ -70,19 +67,23 @@
         <h5 class="card-title text-center">
           <%=audit.callNumber%>
         </h5>
-        <h6 class="card-subtitle">
-          <strong>Calltaker Name</strong>:
-          <%=audit.calltakerName%>
-        </h6>
-        <p class="card-body">Audit Status:
+
+        <p class="lead">
+          <strong>Audit Status</strong>:
           <%=audit.auditStatus%>
         </p>
+
+        <% if(audit.flagForReview && !audit.employeeReviewedAudit){ %>
+        <p class="lead text-warning">
+          <strong><i class="far fa-eye"></i>
+            Employee Review Needed</strong></p>
+        <%}%>
       </div>
       <a href="/audits/<%=audit._id%>" class="btn btn-info">View Audit</a>
-    </div>
-    <%   }) %>
+      </div>
+      <%   }) %>
 
-    <%}%>
+      <%}%>
     </div>
   </div>
 

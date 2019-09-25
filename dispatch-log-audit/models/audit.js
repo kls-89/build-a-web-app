@@ -48,6 +48,13 @@ const AuditSchema = new Schema({
   auditorComments: {
     type: String
   },
+  employeeComments: {
+    type: String
+  },
+  employeeReviewedAudit: {
+    type: Boolean,
+    default: false
+  },
   employeeId: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Employee'

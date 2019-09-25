@@ -462,7 +462,7 @@ exports.postAddUser = (req, res, next) => {
                         }
                         console.log(res);
                     })
-                    console.log("USR ADDED", newEmployee);
+                    console.log("USER ADDED", newEmployee);
                 }).catch(err => console.log(err))
         })
         .then(result => {

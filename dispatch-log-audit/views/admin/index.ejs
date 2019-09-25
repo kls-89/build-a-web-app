@@ -16,49 +16,57 @@
 </div>
 
 <header>
+
     <!-- Sort Audits -->
-    <form action="/admin/sort-by" method="GET">
-        <div class="form-group">
-            <label for="sortBy">Sort by:</label>
-            <select class="form-control" id="sortBy" name="sortBy">
-                <option value="" selected disabled>
-                    Select Sort By Criteria
-                </option>
-                <option value="flagForReview">
-                    Flagged for Review
-                </option>
-                <option value="auditStatusOpen">Open Audits</option>
-                <option value="auditStatusClosed">Closed Audits</option>
-                <option value="unassigned">Unassigned Audits</option>
-                <option value="criticalErrors">Critical Audit Errors</option>
-                <option value="showAllAudits">Show All Audits</option>
-            </select>
+    <div class="container">
+        <div class="row">
+
+            <form class="col-md-6" action="/admin/sort-by" method="GET">
+                <div class="form-group">
+                    <label for="sortBy">Sort by:</label>
+                    <select class="form-control" id="sortBy" name="sortBy">
+                        <option value="" selected disabled>
+                            Select Sort By Criteria
+                        </option>
+                        <option value="flagForReview">
+                            Flagged for Review
+                        </option>
+                        <option value="auditStatusOpen">Open Audits</option>
+                        <option value="auditStatusClosed">Closed Audits</option>
+                        <option value="unassigned">Unassigned Audits</option>
+                        <option value="criticalErrors">Critical Audit Errors</option>
+                        <option value="showAllAudits">Show All Audits</option>
+                    </select>
+                </div>
+                <button class="btn btn-info">Sort</button>
+            </form>
+
+
+            <form class="col-md-6" action="/admin/sort-by-employee" method="GET">
+                <div class="form-group">
+
+                    <label for="sortByEmployee">View Single Employee's Audits:</label>
+                    <select class="form-control" id="sortByEmployee" name="sortByEmployee">
+                        <option value="" selected disabled>
+                            Select Employee
+                        </option>
+
+                        <% employees.forEach(employee => { %>
+                        <option value="<%=employee._id%>">
+                            <%=employee.firstName%>
+                            <%=employee.lastName%>
+
+                        </option>
+                        <%  }) %>
+                    </select>
+                </div>
+
+                <button class="btn btn-info">View</button>
+            </form>
         </div>
-        <button class="btn btn-info">Sort</button>
-    </form>
 
+    </div>
 
-    <form action="/admin/sort-by-employee" method="GET">
-        <div class="form-group">
-
-            <label for="sortByEmployee">View Single Employee's Audits:</label>
-            <select class="form-control" id="sortByEmployee" name="sortByEmployee">
-                <option value="" selected disabled>
-                    Select Employee
-                </option>
-
-                <% employees.forEach(employee => { %>
-                <option value="<%=employee._id%>">
-                    <%=employee.firstName%>
-                    <%=employee.lastName%>
-
-                </option>
-                <%  }) %>
-            </select>
-        </div>
-
-        <button class="btn btn-info">View</button>
-    </form>
 
     <% if (audits.length <= 0) {%>
     <h2 class="text-center">No Audits</h2>
@@ -121,11 +129,17 @@
             <p class="card-body">Audit Status:
                 <%=audit.auditStatus%>
             </p>
+
+            <% if(audit.flagForReview && !audit.employeeReviewedAudit){ %>
+            <p class="lead text-warning text-center">
+                <strong><i class="far fa-eye"></i>
+                    Awaiting Employee Review</strong></p>
+            <%}%>
         </div>
         <a href="/admin/audits/<%=audit._id%>" class="btn btn-info">View Audit</a>
-    </div>
-    <%   }) %>
-    <%}%>
+        </div>
+        <%   }) %>
+        <%}%>
 </div>         
 </div>
 

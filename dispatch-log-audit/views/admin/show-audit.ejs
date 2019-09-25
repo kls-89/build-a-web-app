@@ -59,6 +59,17 @@
       </strong>:
       <%=audit.auditorComments%>
     </p>
+    <% if (audit.employeeComments) { %>
+    <p class="card-text">
+      <strong><em>Employee Comments</em></strong>:
+      <%=audit.employeeComments%>
+    </p>
+    <% } %>
+
+    <% if (audit.flagForReview && !audit.employeeReviewedAudit) {%>
+    <p class="card-text text-danger text-center">This audit has been flagged for review, but <%=audit.calltakerName%>
+      has <strong>not yet</strong> reviewed it.</p>
+    <% } %>
   </div>
   <a href="/admin/audits/<%=audit._id%>/edit" class="btn btn-warning">Edit Audit</a>
 </div>

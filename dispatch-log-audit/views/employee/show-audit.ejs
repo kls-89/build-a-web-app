@@ -1,6 +1,5 @@
 <% include ../partials/header %>
 
-
 <div class="card" style="margin-bottom: 1rem">
   <!-- CARD HEADER -->
   <% if (audit.criticalErrors) { %>
@@ -59,7 +58,37 @@
       </strong>:
       <%=audit.auditorComments%>
     </p>
+
+    <% if (audit.employeeComments) { %>
+    <p class="card-text">
+      <strong><em>Employee Comments</em></strong>:
+      <%=audit.employeeComments%>
+    </p>
+    <% } %>
   </div>
-  <!-- <a href="/admin/audits/<%=audit._id%>/edit" class="btn btn-warning">Edit Audit</a> -->
 </div>
+
+<!-- Only render the form if the Employee has not previously submitted it. -->
+<% if (!audit.employeeReviewedAudit) { %>
+<form action="/audits/<%=audit._id%>" method="POST">
+  <!-- REMARKS -->
+  <div class="form-group">
+    <label for="employeeComments">Remarks:
+    </label>
+    <textarea placeholder="Use this space to provide any comments for the auditor regarding this review (optional)."
+      class="form-control" id="employeeComments" name="employeeComments" rows="3"></textarea>
+  </div>
+  <div class="form-check">
+    <input required class="form-check-input" type="checkbox" name="employeeReviewedAudit" id="employeeReviewedAudit"
+      value="1">
+    <label class="form-check-label" for="employeeReviewedAudit">
+      Check this box to acknowledge that you've reviewed this audit.
+    </label>
+  </div>
+  <button class="btn btn-success float-right">Submit</button>
+</form>
+<% } %>
+
+
+
 <% include ../partials/footer %>

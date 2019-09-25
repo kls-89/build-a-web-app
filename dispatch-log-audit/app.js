@@ -13,7 +13,7 @@ const errorController = require('./controllers/error/404');
 
 const Employee = require('./models/employee');
 
-const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PW}@webdev-cluster-kls-qduay.mongodb.net/test?retryWrites=true&w=majority`;
+const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PW}@webdev-cluster-kls-qduay.mongodb.net/BuildWebApp_DispatchLogAudit?retryWrites=true&w=majority`;
 
 
 const app = express();
