@@ -1,0 +1,18 @@
+<% include ../partials/header %>
+<% if (message) { %>
+<div class="alert alert-primary" role="alert">
+  <%=message%>
+</div>
+<% } %>
+<h1 class="text-center">Reset Password</h1>
+<p class="lead">To reset your password, enter your e-mail address and click Reset.</p>
+
+<form action="/reset" method="POST">
+  <div class="form-group">
+    <label for="email">Email</label>
+    <input type="email" class="form-control" id="email" name="email" required>
+  </div>
+  <button class="btn btn-primary">Reset</button>
+</form>
+
+<% include ../partials/footer %>

@@ -19,6 +19,7 @@ const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_P
 const app = express();
 const store = new MongoDBStore({
 	uri: MONGODB_URI,
+	dbName: 'BuildWebApp_DispatchLogAudit',
 	collection: 'sessions'
 });
 
@@ -35,7 +36,7 @@ app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(
 	session({
-		secret: '1f97ah4sr8o32r8q8wofhi7y6wq3',
+		secret: 'brindle bugg',
 		resave: false,
 		saveUninitialized: false,
 		store: store
@@ -43,6 +44,7 @@ app.use(
 );
 
 app.use(flash());
+
 app.use((req, res, next) => {
 	if (!req.session.employee) {
 		return next();
@@ -56,10 +58,17 @@ app.use((req, res, next) => {
 		.catch(err => console.log(err));
 });
 
+// THESE VALUES PASED TO EVERY RENDER CALL ON EVERY ROUTE
+app.use((req, res, next) => {
+	res.locals.isAuthenticated = req.session.isLoggedIn;
+	next();
+});
+
 // ROUTE MIDDLEWARE
 app.use('/admin', isAdmin, adminRoutes);
 app.use(employeeRoutes);
 app.use(authRoutes);
+
 app.use(errorController.get404);
 
 // DB CONNECTION

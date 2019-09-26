@@ -28,6 +28,12 @@ const EmployeeSchema = new Schema({
   isAdmin: {
     type: Boolean,
     default: false
+  },
+  token: {
+    type: String
+  },
+  tokenExpiration: {
+    type: Date
   }
 });
 
