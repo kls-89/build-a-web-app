@@ -29,10 +29,10 @@ const EmployeeSchema = new Schema({
     type: Boolean,
     default: false
   },
-  token: {
+  resetToken: {
     type: String
   },
-  tokenExpiration: {
+  resetTokenExpiration: {
     type: Date
   }
 });

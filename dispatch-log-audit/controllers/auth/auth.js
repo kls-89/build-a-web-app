@@ -11,7 +11,7 @@ const sendGrid = nodemailer.createTransport(transport({
 }))
 
 exports.getLogin = (req, res, next) => {
-  let message = req.flash('error');
+  let message = req.flash('msg');
 
   if (message.length > 0) {
     message = message[0];
@@ -25,7 +25,7 @@ exports.getLogin = (req, res, next) => {
     isAuthenticated: false,
     isLoggedIn: false,
     isAdmin: false,
-    errorMessage: message
+    message: message
   });
 };
 
@@ -38,7 +38,7 @@ exports.postLogin = (req, res, next) => {
     .then(employee => {
       if (!employee) {
         // If user isn't found in DB
-        req.flash('error', 'Invalid email or password.');
+        req.flash('msg', 'Invalid email or password.');
         return res.redirect('/login')
       }
       // Email exists at this point. Now validate pw.
@@ -65,7 +65,7 @@ exports.postLogin = (req, res, next) => {
             });
           }
           // If passwords do not match
-          req.flash('error', 'Invalid email or password');
+          req.flash('msg', 'Invalid email or password');
           res.redirect('/login')
         })
         .catch(err => {
@@ -83,7 +83,7 @@ exports.postLogout = (req, res, next) => {
   });
 };
 
-exports.getReset = (req, res, next) => {
+exports.getResetPassword = (req, res, next) => {
   let message = req.flash("msg");
   if (message.length > 0) {
     message = message[0];
@@ -101,32 +101,98 @@ exports.getReset = (req, res, next) => {
   })
 }
 
-exports.postReset = (req, res, next) => {
-  const email = req.body.email;
-  // Check if user account exists for provided email
-  Employee.findOne({ email: email }, (err, employee) => {
-    // If email not in DB, reload the page and prompt user.
-    if (!employee) {
-      req.flash("error", "The email address provided does not match our records.")
-      return res.redirect("/reset");
+exports.postResetPassword = (req, res, next) => {
+  let employeeName;
+  crypto.randomBytes(32, (err, buffer) => {
+    if (err) {
+      console.log(err);
+      return res.redirect('/reset');
     }
-    // Email exists in DB
-    // Generate reset token
-    const token = crypto.randomBytes(32, (err, buffer) => {
-      if (err) {
-        console.log(err);
-        return res.redirect('/reset');
-      }
-      const token = buffer.toString('hex');
-    })
-    // Token expires 1 hour from the time it's generated
-    const tokenReset = Date.now() + 3600000;
 
-    employee.token = token;
-    employee.tokenReset = tokenReset;
-    return employee.save();
-  }).then(result => {
-    req.flash("msg", "A password reset has been requested. Please check your e-mail for further instructions.");
-    return res.redirect("back");
+    const token = buffer.toString("hex");
+
+    Employee
+      .findOne({ email: req.body.email })
+      .then(employee => {
+        if (!employee) {
+          req.flash("msg", "The email address provided does not match our records.")
+          return res.redirect("/reset");
+        }
+        employeeName = employee.firstName;
+        employee.resetToken = token;
+        // Token set to expire after 1 hour
+        employee.resetTokenExpiration = Date.now() + 3600000;
+        return employee.save();
+      })
+      .then(result => {
+        // Updated Employee saved in DB. Now send email.
+        req.flash("msg", "A password reset link has been sent to the email address you provided. Please follow those steps to continue.");
+        return res.redirect("/");
+
+
+      }).then(result => {
+        sendGrid.sendMail({
+          to: req.body.email,
+          from: 'DoNotReply@AuditLog.com',
+          subject: "Password Reset Requested",
+          html: `
+        <p>Hi ${employeeName}! We are in receipt of your password reset request. Please click <a href="http://localhost:3000/reset/${token}">this link</a> to set a new password.</p>
+        <p>If you <strong>DID NOT</strong> make this request, then please disregard this e-mail.</p>
+        <p><strong>Please note</strong>: This link will expire after 1 hour.</p>
+        `
+        })
+      })
+      .catch(err => console.log(err));
+  });
+}
+
+exports.getNewPassword = (req, res, next) => {
+  const token = req.params.token;
+  Employee
+    .findOne({ resetToken: token, resetTokenExpiration: { $gt: Date.now() } })
+    .then(employee => {
+      let message = req.flash('msg');
+      if (message.length > 0) {
+        message = message[0];
+      } else {
+        message = null;
+      }
+      res.render('auth/new-password', {
+        pageTitle: "Create a New Password",
+        message: message,
+        employeeId: employee._id.toString(),
+        passwordToken: token,
+        isAdmin: false,
+        isLoggedIn: false
+      })
+    })
+    .catch(err => console.log(err));
+}
+
+exports.postNewPassword = (req, res, next) => {
+  const newPassword = req.body.password;
+  const employeeId = req.body.employeeId;
+  const passwordToken = req.body.passwordToken;
+  let resetEmployee;
+
+  Employee.findOne({
+    _id: employeeId,
+    resetToken: passwordToken,
+    resetTokenExpiration: { $gt: Date.now() }
   })
+    .then(employee => {
+      resetEmployee = employee;
+      return bcrypt.hash(newPassword, 12)
+    })
+    .then(hashedPassword => {
+      resetEmployee.password = hashedPassword;
+      resetEmployee.resetToken = undefined;
+      resetEmployee.resetTokenExpiration = undefined;
+      return resetEmployee.save();
+    })
+    .then(result => {
+      req.flash("msg", "Your password has successfully been updated. Please Login with your updated credentials.")
+      return res.redirect('/login');
+    })
+    .catch(err => console.log(err));
 }
