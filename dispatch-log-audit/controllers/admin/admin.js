@@ -126,6 +126,7 @@ exports.getNewAudit = (req, res, next) => {
 }
 
 exports.postNewAudit = (req, res, next) => {
+    console.log(req.body._csrf)
     const callNumber = `${req.body.currentYear}-${req.body.callNumber}`;
     const employeeId = req.body.calltakerName;
     const callDate = req.body.callDate;

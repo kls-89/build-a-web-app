@@ -8,6 +8,7 @@
 <p class="lead">To reset your password, enter your e-mail address and click Reset.</p>
 
 <form action="/reset" method="POST">
+  <input type="hidden" name="_csrf" value="<%=csrfToken%>">
   <div class="form-group">
     <label for="email">Email</label>
     <input type="email" class="form-control" id="email" name="email" required>

@@ -111,7 +111,7 @@
 
   <!-- Audits conducted via this form are automatically marked as completed: -->
   <input type="hidden" name="auditInProgress" value=0>
-
+  <input type="hidden" name="_csrf" value="<%=csrfToken%>">
   <button class="btn btn-success btn-block">Create Audit</button>
 </form>
 <% include ../partials/footer %>

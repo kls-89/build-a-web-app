@@ -9,6 +9,7 @@
 <h1>Create New User</h1>
 
 <form action="/admin/add-user" , method="POST">
+  <input type="hidden" name="_csrf" value="<%=csrfToken%>">
   <div class="form-group">
     <label for="firstName">First Name</label>
     <input name="firstName" id="firstName" type="text" class="form-control" required>

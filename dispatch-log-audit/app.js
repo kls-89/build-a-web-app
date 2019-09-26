@@ -8,9 +8,10 @@ const methodOverride = require('method-override');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
-const isAdmin = require('./middleware/isAdmin');
+const csrf = require('csurf');
 const errorController = require('./controllers/error/404');
 
+const isAdmin = require('./middleware/isAdmin');
 const Employee = require('./models/employee');
 
 const MONGODB_URI = `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PW}@webdev-cluster-kls-qduay.mongodb.net/BuildWebApp_DispatchLogAudit?retryWrites=true&w=majority`;
@@ -22,6 +23,8 @@ const store = new MongoDBStore({
 	dbName: 'BuildWebApp_DispatchLogAudit',
 	collection: 'sessions'
 });
+
+const csrfProtection = csrf();
 
 app.set('view engine', 'ejs');
 
@@ -42,7 +45,7 @@ app.use(
 		store: store
 	})
 );
-
+app.use(csrfProtection);
 app.use(flash());
 
 app.use((req, res, next) => {
@@ -61,6 +64,7 @@ app.use((req, res, next) => {
 // THESE VALUES PASED TO EVERY RENDER CALL ON EVERY ROUTE
 app.use((req, res, next) => {
 	res.locals.isAuthenticated = req.session.isLoggedIn;
+	res.locals.csrfToken = req.csrfToken();
 	next();
 });
 

@@ -7,6 +7,7 @@
 
 
   <form action="/admin/audits/<%=audit._id%>?_method=PUT" method="POST">
+    <input type="hidden" name="_csrf" value="<%=csrfToken%>">
     <input type="hidden" name="originalAuditEmployeeId" value="<%=audit.employeeId%>">
 
     <div class="form-group">
@@ -151,6 +152,7 @@
 
   <!-- DELETE -->
   <form action="/admin/audits/<%=audit.id%>?_method=DELETE" method="POST">
+    <input type="hidden" name="_csrf" value="<%=csrfToken%>">
     <button class="btn btn-danger">Delete Audit</button>
   </form>
 </div>

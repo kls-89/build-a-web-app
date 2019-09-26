@@ -21,6 +21,7 @@
 
       <li class="nav-item">
         <form action="/logout" method="post">
+          <input type="hidden" name="_csrf" value="<%=csrfToken%>">
           <button class="btn" class="nav-link" type="submit">Logout <%=employeeName%></button></form>
       </li>
       <% } else { %>
