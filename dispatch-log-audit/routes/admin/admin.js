@@ -37,10 +37,14 @@ router.delete('/audits/:id', adminController.deleteEditAudit)
 
 // MISC UTILITY ROUTES
 
+// Manage Employees
+// Render Index
+router.get("/employees", adminController.getEmployeesIndex);
+
 // Create New User Account -- render form
-router.get("/add-user", adminController.getAddUser);
+router.get("/employees/new", adminController.getAddUser);
 // Create new User account -- handle post request
-router.post("/add-user", adminController.postAddUser);
+router.post("/employees", adminController.postAddUser);
 
 // Search DB for specific Audit Criteria.
 router.get("/sort-by", adminController.getSortBy)

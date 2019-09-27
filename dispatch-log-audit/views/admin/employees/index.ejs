@@ -1,0 +1,41 @@
+<% include ../../partials/header %>
+<% if (message) { %>
+<div class="alert alert-success text-center" role="alert">
+  <%=message%>
+</div>
+<% } %>
+<h1 class="text-center">Manage Employees</h1>
+<div class="jumbotron text-center">
+  <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ratione accusantium esse aperiam id harum labore
+    similique,
+    minima quas tempore culpa ea. Saepe et rerum ipsam molestias! Vel dolores qui natus?</p>
+  <!-- <a class="btn btn-info" href="/admin/audits/new">Create New Audit</a>
+  <a class="btn btn-info" href="/admin/audits/new/bulk">Create Multiple Audits</a> -->
+
+  <!-- <a href="/admin/employees/new" class="btn btn-primary">Add New Employee</a>
+  <a href="/admin/employees" class="btn btn-primary">Manage Employees</a> -->
+</div>
+
+<!-- CARDS -->
+<div class="container">
+  <div class="row">
+    <%  employees.forEach(employee => { %>
+    <!-- CARD BODY -->
+    <div class="card">
+      <div class="card-body">
+        <h5 class="card-title">
+          <%=employee.firstName%>
+          <%=employee.lastName%>
+        </h5>
+        <h6 class="card-subtitle">
+          <strong>Calltaker Name</strong>:
+          <%=employee.email%>
+        </h6>
+
+      </div>
+    </div>
+    <%   }) %>
+  </div>
+</div>
+
+<% include ../../partials/footer %>

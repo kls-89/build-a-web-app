@@ -398,7 +398,7 @@ exports.getAddUser = (req, res, next) => {
         message = null;
     }
 
-    res.render('admin/add-user', {
+    res.render('admin/employees/new', {
         pageTitle: 'Add New User',
         isAdmin: req.session.isAdmin,
         employeeName: req.session.employee.firstName,
@@ -471,4 +471,30 @@ exports.postAddUser = (req, res, next) => {
         .catch(err => {
             console.log(err);
         })
+}
+
+// EMPLOYEE MANAGEMENT
+
+exports.getEmployeesIndex = (req, res, next) => {
+    let message = req.flash("msg");
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+
+    Employee
+        .find({})
+        .then(employees => {
+            res.render("admin/employees/index", {
+                pageTitle: "Manage Employees",
+                isAdmin: req.session.isAdmin,
+                employeeName: req.session.employee.firstName,
+                isLoggedIn: req.session.isLoggedIn,
+                message: message,
+                employees: employees
+            });
+        })
+        .catch(err => console.log(err)); 
+
 }

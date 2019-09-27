@@ -1,4 +1,4 @@
-<% include ../partials/header %>
+<% include ../../partials/header %>
 
 <% if (message) { %>
 <div class="alert alert-danger" role="alert">
@@ -6,9 +6,9 @@
 </div>
 <% } %>
 
-<h1>Create New User</h1>
+<h1 class="text-center">Add New Employee</h1>
 
-<form action="/admin/add-user" , method="POST">
+<form action="/admin/employees" , method="POST">
   <input type="hidden" name="_csrf" value="<%=csrfToken%>">
   <div class="form-group">
     <label for="firstName">First Name</label>
@@ -40,4 +40,4 @@
   </div>
   <button class="btn btn-success">Create New User</button>
 </form>
-<% include ../partials/footer %>
+<% include ../../partials/footer %>
