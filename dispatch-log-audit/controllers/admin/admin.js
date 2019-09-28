@@ -495,6 +495,29 @@ exports.getEmployeesIndex = (req, res, next) => {
                 employees: employees
             });
         })
-        .catch(err => console.log(err)); 
+        .catch(err => console.log(err));
 
+}
+
+exports.getShowEmployee = (req, res, next) => {
+    const id = req.params.id;
+    let message = req.flash("msg");
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
+    Employee
+        .findById(id)
+        .then(employee => {
+            return res.render("admin/employees/show", {
+                pageTitle: `${employee.firstName} ${employee.lastName}`,
+                isAdmin: req.session.isAdmin,
+                employeeName: req.session.employee.firstName,
+                isLoggedIn: req.session.isLoggedIn,
+                message: message,
+                employee: employee
+
+            })
+        }).catch(err => console.log(err));
 }

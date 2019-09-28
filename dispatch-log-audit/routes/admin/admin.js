@@ -41,6 +41,9 @@ router.delete('/audits/:id', adminController.deleteEditAudit)
 // Render Index
 router.get("/employees", adminController.getEmployeesIndex);
 
+router.get("/employees/:id", adminController.getShowEmployee);
+
+
 // Create New User Account -- render form
 router.get("/employees/new", adminController.getAddUser);
 // Create new User account -- handle post request

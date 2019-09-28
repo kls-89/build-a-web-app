@@ -1,0 +1,47 @@
+<% include ../../partials/header %>
+
+
+<div class="card" style="margin-bottom: 1rem">
+  <!-- CARD BODY -->
+  <div class="card-body">
+    <h5 class="card-title text-center">
+      test
+    </h5>
+    <h6 class="card-subtitle">
+      <strong><em>Calltaker Name</em></strong>:
+      <%=employee.firstName%> <%=employee.lastName%>
+    </h6>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">
+        Call Date Entered Correctly:
+
+      </li>
+      <li class="list-group-item">
+        Call Reason Entered Correctly:
+
+      </li>
+      <li class="list-group-item">
+        Call Location Entered Correctly:
+
+      </li>
+      <li class="list-group-item">
+        Call Action Code Entered Correctly:
+
+      </li>
+    </ul>
+
+
+    <p class="card-text">
+      <strong>
+        <em>Auditor Comments</em>
+      </strong>:
+    </p>
+
+
+  </div>
+  <a href="/admin/employee/<%=employee._id%>/edit" class="btn btn-warning">Update Employee Information</a>
+  <form action="#" method="POST">
+    <button class="btn btn-warning">Delete Employee Information</button>
+  </form>
+</div>
+<% include ../../partials/footer %>

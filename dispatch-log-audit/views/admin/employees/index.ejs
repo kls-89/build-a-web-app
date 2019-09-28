@@ -16,26 +16,16 @@
   <a href="/admin/employees" class="btn btn-primary">Manage Employees</a> -->
 </div>
 
-<!-- CARDS -->
-<div class="container">
-  <div class="row">
-    <%  employees.forEach(employee => { %>
-    <!-- CARD BODY -->
-    <div class="card">
-      <div class="card-body">
-        <h5 class="card-title">
-          <%=employee.firstName%>
-          <%=employee.lastName%>
-        </h5>
-        <h6 class="card-subtitle">
-          <strong>Calltaker Name</strong>:
-          <%=employee.email%>
-        </h6>
 
-      </div>
-    </div>
-    <%   }) %>
-  </div>
-</div>
+<ul>
+  <%  employees.forEach(employee => { %>
+  <li>
+    <a href="/admin/employees/<%=employee._id%>"><%=employee.lastName%>, <%=employee.firstName%></a>
+  </li>
+
+  <%   }) %>
+</ul>
+
+
 
 <% include ../../partials/footer %>
