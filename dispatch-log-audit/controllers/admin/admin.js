@@ -485,6 +485,11 @@ exports.getEmployeesIndex = (req, res, next) => {
 
     Employee
         .find({})
+        .collation({
+            locale: 'en',
+            strength: 1
+        })
+        .sort({ lastName: 1 })
         .then(employees => {
             res.render("admin/employees/index", {
                 pageTitle: "Manage Employees",
@@ -510,14 +515,87 @@ exports.getShowEmployee = (req, res, next) => {
     Employee
         .findById(id)
         .then(employee => {
-            return res.render("admin/employees/show", {
-                pageTitle: `${employee.firstName} ${employee.lastName}`,
+
+            Audit
+                .find({ employeeId: id })
+                .then(audits => {
+                    audits = audits;
+                    return audits
+                }).then(audits => {
+                    // Meet these conditions:
+                    // audit.flagForReview && !audit.employeeReviewedAudit
+                    let auditFlagged = false;
+                    let employeeReviewed = false;
+
+                    let auditFlaggedCount = 0;
+                    let employeeReviewedCount = 0;
+                    let auditFlaggedNotReviewedCount = 0;
+
+                    let auditsFlaggedNotReviewedArray = [];
+
+                    audits.forEach(audit => {
+
+                        if (audit.flagForReview) {
+                            auditFlagged = true;
+                            auditFlaggedCount++;
+                        }
+                        if (audit.employeeReviewedAudit) {
+                            employeeReviewed = true;
+                            employeeReviewedCount++;
+                        }
+                        if (audit.flagForReview && !audit.employeeReviewedAudit) {
+                            auditFlaggedNotReviewedCount++;
+                            auditsFlaggedNotReviewedArray.push(audit.callNumber);
+                        }
+                    });
+
+                    return res.render("admin/employees/show", {
+                        pageTitle: `${employee.firstName} ${employee.lastName}`,
+                        isAdmin: req.session.isAdmin,
+                        employeeName: req.session.employee.firstName,
+                        isLoggedIn: req.session.isLoggedIn,
+                        message: message,
+                        employee: employee,
+                        audits: audits,
+                        auditFlagged: auditFlagged,
+                        employeeReviewed: employeeReviewed,
+                        auditFlaggedNotReviewedCount: auditFlaggedNotReviewedCount,
+                        auditsFlaggedNotReviewedArray: auditsFlaggedNotReviewedArray
+
+                    })
+                })
+
+        }).catch(err => console.log(err));
+}
+
+exports.getNotifyEmployee = (req, res, next) => {
+    const employeeId = req.params.id;
+    Employee
+        .findById(employeeId)
+        .then(employee => {
+            Audit.find({
+                employeId: employeeId
+            })
+                .then(audits => {
+                    let auditFlaggedNotReviewedCount = 0;
+                    audits.forEach(audit => {
+                        if (audit.flagForReview && !audit.employeeReviewedAudit) {
+                            auditFlaggedNotReviewedCount++;
+                        }
+                    })
+
+                })
+                .catch(err => console.log(err))
+
+            res.render('admin/employees/notify', {
+                pageTitle: "`${employee.firstName} ${employee.lastName}`",
                 isAdmin: req.session.isAdmin,
                 employeeName: req.session.employee.firstName,
                 isLoggedIn: req.session.isLoggedIn,
-                message: message,
-                employee: employee
-
+                employee: employee,
+                message: 'h',
+                auditFlaggedNotReviewedCount: auditFlaggedNotReviewedCount
             })
-        }).catch(err => console.log(err));
+        })
+        .catch(err => console.log(err));
 }
