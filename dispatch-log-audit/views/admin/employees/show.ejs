@@ -5,28 +5,20 @@
   <!-- CARD BODY -->
   <div class="card-body">
     <h5 class="card-title text-center">
-      test
-    </h5>
-    <h6 class="card-subtitle">
-      <strong><em>Calltaker Name</em></strong>:
       <%=employee.firstName%> <%=employee.lastName%>
-    </h6>
+    </h5>
     <ul class="list-group list-group-flush">
-      <li class="list-group-item">
-        Call Date Entered Correctly:
 
+      <li class="list-group-item">
+        Email Address: <%=employee.email%>
       </li>
       <li class="list-group-item">
-        Call Reason Entered Correctly:
-
-      </li>
-      <li class="list-group-item">
-        Call Location Entered Correctly:
-
-      </li>
-      <li class="list-group-item">
-        Call Action Code Entered Correctly:
-
+        Level of Access:
+        <% if (employee.isAdmin) { %>
+        <strong>Administrator</strong>
+        <% } else { %>
+        <strong>Employee</strong>
+        <% } %>
       </li>
     </ul>
 
@@ -36,12 +28,37 @@
         <em>Auditor Comments</em>
       </strong>:
     </p>
+    <%audits.forEach(audit => { %>
+    <div>
+      <%=audit.callNumber%>
+    </div>
+    <% }) %>
+
+    <p>
+      <%=employee.firstName%> has
+      <% if (auditFlaggedNotReviewedCount > 1) { %>
+      <%=auditFlaggedNotReviewedCount%> audits that need review
+      <% } else if (auditFlaggedNotReviewedCount === 1) { %>
+      <%=auditFlaggedNotReviewedCount%> audit that needs review
+      <% } else { %>
+      reviewed all flagged audits.
+      <% } %>
+
+      <%  if (auditsFlaggedNotReviewedArray.length > 0) { %>
+      <% for (let i = 0; i < auditsFlaggedNotReviewedArray.length; i++) { %>
+      (<%=auditsFlaggedNotReviewedArray[0]%>).
+      <a href="/admin/employees/<%=employee._id%>/notify" class="btn btn-primary">Notify Employee</a>
+      <%   } %>
+      <% } %>
+
 
 
   </div>
-  <a href="/admin/employee/<%=employee._id%>/edit" class="btn btn-warning">Update Employee Information</a>
-  <form action="#" method="POST">
-    <button class="btn btn-warning">Delete Employee Information</button>
-  </form>
 </div>
+<a href="/admin/employee/<%=employee._id%>/edit" class="btn btn-warning">Update Employee Information</a>
+<form action="#" method="POST">
+  <button id="deleteBtn" class="btn btn-danger">Delete Employee</button>
+</form>
+
+
 <% include ../../partials/footer %>
