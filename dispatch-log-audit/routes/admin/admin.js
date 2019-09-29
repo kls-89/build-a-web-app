@@ -41,13 +41,17 @@ router.delete('/audits/:id', adminController.deleteEditAudit)
 // Render Index
 router.get("/employees", adminController.getEmployeesIndex);
 
-router.get("/employees/:id", adminController.getShowEmployee);
-
-
 // Create New User Account -- render form
 router.get("/employees/new", adminController.getAddUser);
 // Create new User account -- handle post request
 router.post("/employees", adminController.postAddUser);
+
+
+// Notify Employee of Audits form 
+router.get("/employees/:id/notify", adminController.getNotifyEmployee);
+// SHOW Employee
+router.get("/employees/:id", adminController.getShowEmployee);
+
 
 // Search DB for specific Audit Criteria.
 router.get("/sort-by", adminController.getSortBy)
