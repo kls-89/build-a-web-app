@@ -1,0 +1,28 @@
+<% include ../../partials/header %>
+
+<% if (message) { %>
+<div class="alert alert-danger" role="alert">
+  <%=message%>
+</div>
+<% } %>
+
+<h1 class="text-center">Send Audit Review Notification</h1>
+
+<form action="/admin/employees/<%=employee._id%>/notify" , method="POST">
+  <input type="hidden" name="_csrf" value="<%=csrfToken%>">
+  <div class="form-group">
+    <label for="pendingAuditNotificationMessage">Send the following message to <%=employee.firstName%>
+      <%=employee.lastName%>: </label>
+    <textarea class="form-control" id="pendingAuditNotificationMessage" name="pendingAuditNotificationMessage" rows="3">Hello <%=employee.firstName%>,
+      You have 
+      <% if (auditFlaggedNotReviewedCount > 1) { %>
+        <%=auditFlaggedNotReviewedCount%> audits that need review
+        <% } else if (auditFlaggedNotReviewedCount === 1) { %>
+        <%=auditFlaggedNotReviewedCount%> audit that needs review
+        <% }. Please login to view them as soon as you can.</textarea>
+  </div>
+
+
+  <button class="btn btn-success">Create New User</button>
+</form>
+<% include ../../partials/footer %>
