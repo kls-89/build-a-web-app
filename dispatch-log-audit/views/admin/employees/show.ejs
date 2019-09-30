@@ -30,14 +30,21 @@
       <% } else if (auditFlaggedNotReviewedCount === 1) { %>
       <%=auditFlaggedNotReviewedCount%> audit that needs review.
       <% } else { %>
-      reviewed all flagged audits.
+      no flagged audits pending review.
       <% } %>
 
+      <!-- If a notification was generated AND it's less than 1 week old, prevent Admin user from sending a duplicate notice. -->
+      <% if (employee.notificationMessageId &&  Date.now() - employee.notificationMessageSentDate < 604800000000) { %>
+      <p>A
+        notification
+        was sent on <%=employee.notificationMessageSentDate.toDateString()%>.</p>
+      <% } else { %>
       <%  if (auditsFlaggedNotReviewedArray.length > 0) { %>
       <% for (let i = 0; i < auditsFlaggedNotReviewedArray.length; i++) { %>
       <a href="/admin/employees/<%=employee._id%>/notify">Click here to send <%=employee.firstName%> an email
         notification.</a>
       <%   } %>
+      <% } %>
       <% } %>
   </div>
 </div>

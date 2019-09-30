@@ -587,7 +587,7 @@ exports.getNotifyEmployee = (req, res, next) => {
                             auditFlaggedNotReviewedCount++;
                         }
                     })
-                    let pendingAuditNotificationMessage = `Hello ${employee.firstName}, You have ${auditFlaggedNotReviewedCount} ${auditFlaggedNotReviewedCount > 1 ? "audits that need" : "audit that needs"} review. Please login to view them as soon as you can.`;
+                    let pendingAuditNotificationMessage = `Hello ${employee.firstName}, You have ${auditFlaggedNotReviewedCount} ${auditFlaggedNotReviewedCount > 1 ? "audits that need" : "audit that needs"} review. Please login to complete your review as soon as possible.`;
 
                     res.render('admin/employees/notify', {
                         pageTitle: `Notify ${employee.firstName} ${employee.lastName}`,

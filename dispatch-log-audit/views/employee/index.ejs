@@ -67,10 +67,13 @@
         <h5 class="card-title text-center">
           <%=audit.callNumber%>
         </h5>
-
         <p class="lead">
           <strong>Audit Status</strong>:
           <%=audit.auditStatus%>
+        </p>
+        <p class="lead">
+          <strong>Date of Audit</strong>:
+          <%=audit.auditDate.toDateString()%>
         </p>
 
         <% if(audit.flagForReview && !audit.employeeReviewedAudit){ %>

@@ -71,6 +71,7 @@ exports.getShowAudit = (req, res, next) => {
 
 exports.postShowAudit = (req, res, next) => {
     const id = req.params.id;
+    let employeeId;
     const employeeComments = req.body.employeeComments;
 
     let employeeReviewedAudit = req.body.employeeReviewedAudit;
@@ -85,7 +86,21 @@ exports.postShowAudit = (req, res, next) => {
             if (err) {
                 console.log(err);
             }
-            return res.redirect("/")
+            employeeId = audit.employeeId;
+            Employee
+                .findById(employeeId)
+                .then(employee => {
+                    // Clear notifications from employee document
+                    employee.
+                        notificationMessageId = undefined;
+                    employee.notificationMessageSentDate = undefined;
+                    return employee.save();
+
+                }).then(employee => {
+                    return res.redirect("/")
+                })
+                .catch(err => console.log(err))
+
         });
 
 }
