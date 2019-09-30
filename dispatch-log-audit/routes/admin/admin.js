@@ -49,6 +49,7 @@ router.post("/employees", adminController.postAddUser);
 
 // Notify Employee of Audits form 
 router.get("/employees/:id/notify", adminController.getNotifyEmployee);
+router.post("/employees/:id/notify", adminController.postNotifyEmployee);
 // SHOW Employee
 router.get("/employees/:id", adminController.getShowEmployee);
 

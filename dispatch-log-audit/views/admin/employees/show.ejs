@@ -10,52 +10,35 @@
     <ul class="list-group list-group-flush">
 
       <li class="list-group-item">
-        Email Address: <%=employee.email%>
+        <strong>Email Address</strong>: <%=employee.email%>
       </li>
       <li class="list-group-item">
-        Level of Access:
-        <% if (employee.isAdmin) { %>
-        <strong>Administrator</strong>
-        <% } else { %>
-        <strong>Employee</strong>
-        <% } %>
+        <strong>Level of Access</strong>:
+        <%= employee.isAdmin ? "Administrator" : "Employee" %>
       </li>
     </ul>
 
 
     <p class="card-text">
-      <strong>
-        <em>Auditor Comments</em>
-      </strong>:
-    </p>
-    <%audits.forEach(audit => { %>
-    <div>
-      <%=audit.callNumber%>
-    </div>
-    <% }) %>
-
-    <p>
       <%=employee.firstName%> has
       <% if (auditFlaggedNotReviewedCount > 1) { %>
-      <%=auditFlaggedNotReviewedCount%> audits that need review
+      <%=auditFlaggedNotReviewedCount%> audits that need review.
       <% } else if (auditFlaggedNotReviewedCount === 1) { %>
-      <%=auditFlaggedNotReviewedCount%> audit that needs review
+      <%=auditFlaggedNotReviewedCount%> audit that needs review.
       <% } else { %>
       reviewed all flagged audits.
       <% } %>
 
       <%  if (auditsFlaggedNotReviewedArray.length > 0) { %>
       <% for (let i = 0; i < auditsFlaggedNotReviewedArray.length; i++) { %>
-      (<%=auditsFlaggedNotReviewedArray[0]%>).
-      <a href="/admin/employees/<%=employee._id%>/notify" class="btn btn-primary">Notify Employee</a>
+      <a href="/admin/employees/<%=employee._id%>/notify">Click here to send <%=employee.firstName%> an email
+        notification.</a>
       <%   } %>
       <% } %>
-
-
-
   </div>
 </div>
-<a href="/admin/employee/<%=employee._id%>/edit" class="btn btn-warning">Update Employee Information</a>
+<a href="/admin/employee/<%=employee._id%>/edit" class="btn btn-warning">Update <%=employee.firstName%>'s
+  Information</a>
 <form action="#" method="POST">
   <button id="deleteBtn" class="btn btn-danger">Delete Employee</button>
 </form>

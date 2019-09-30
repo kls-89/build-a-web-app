@@ -561,7 +561,6 @@ exports.getShowEmployee = (req, res, next) => {
                         employeeReviewed: employeeReviewed,
                         auditFlaggedNotReviewedCount: auditFlaggedNotReviewedCount,
                         auditsFlaggedNotReviewedArray: auditsFlaggedNotReviewedArray
-
                     })
                 })
 
@@ -570,12 +569,16 @@ exports.getShowEmployee = (req, res, next) => {
 
 exports.getNotifyEmployee = (req, res, next) => {
     const employeeId = req.params.id;
+    let message = req.flash('msg');
+    if (message.length > 0) {
+        message = message[0];
+    } else {
+        message = null;
+    }
     Employee
         .findById(employeeId)
         .then(employee => {
-            Audit.find({
-                employeId: employeeId
-            })
+            Audit.find({ employeeId: employeeId })
                 .then(audits => {
                     let auditFlaggedNotReviewedCount = 0;
                     audits.forEach(audit => {
@@ -583,19 +586,42 @@ exports.getNotifyEmployee = (req, res, next) => {
                             auditFlaggedNotReviewedCount++;
                         }
                     })
+                    let pendingAuditNotificationMessage = `Hello ${employee.firstName}, You have ${auditFlaggedNotReviewedCount} ${auditFlaggedNotReviewedCount > 1 ? "audits that need" : "audit that needs"} review. Please login to view them as soon as you can.`;
 
+                    res.render('admin/employees/notify', {
+                        pageTitle: `Notify ${employee.firstName} ${employee.lastName}`,
+                        isAdmin: req.session.isAdmin,
+                        employeeName: req.session.employee.firstName,
+                        isLoggedIn: req.session.isLoggedIn,
+                        employee: employee,
+                        message: message,
+                        pendingAuditNotificationMessage: pendingAuditNotificationMessage
+                    })
                 })
                 .catch(err => console.log(err))
-
-            res.render('admin/employees/notify', {
-                pageTitle: "`${employee.firstName} ${employee.lastName}`",
-                isAdmin: req.session.isAdmin,
-                employeeName: req.session.employee.firstName,
-                isLoggedIn: req.session.isLoggedIn,
-                employee: employee,
-                message: 'h',
-                auditFlaggedNotReviewedCount: auditFlaggedNotReviewedCount
-            })
         })
         .catch(err => console.log(err));
+}
+
+exports.postNotifyEmployee = (req, res, next) => {
+    const messageBody = req.body.pendingAuditNotificationMessage;
+    const emailAddress = req.body.email;
+    const employeeId = req.body.employeeId;
+
+    // Send email to employee
+
+    const email = {
+        to: emailAddress,
+        from: 'doNotReply@AuditLog.com',
+        subject: 'Audit Review Requested',
+        html: `<p>${messageBody}</p>
+        <p><a href="${webAppURL}">Click this link to login to the site</a>.You can see which audits are flagged for review by clicking the "View Audits Flagged for Review" button after you login.</p>`
+    };
+    sendGrid.sendMail(email, (err, res) => {
+        if (err) {
+            console.log(err);
+        }
+        console.log(res);
+    })
+    return res.redirect(`/admin/employees/${employeeId}`);
 }

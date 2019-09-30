@@ -11,18 +11,15 @@
 <form action="/admin/employees/<%=employee._id%>/notify" , method="POST">
   <input type="hidden" name="_csrf" value="<%=csrfToken%>">
   <div class="form-group">
-    <label for="pendingAuditNotificationMessage">Send the following message to <%=employee.firstName%>
-      <%=employee.lastName%>: </label>
-    <textarea class="form-control" id="pendingAuditNotificationMessage" name="pendingAuditNotificationMessage" rows="3">Hello <%=employee.firstName%>,
-      You have 
-      <% if (auditFlaggedNotReviewedCount > 1) { %>
-        <%=auditFlaggedNotReviewedCount%> audits that need review
-        <% } else if (auditFlaggedNotReviewedCount === 1) { %>
-        <%=auditFlaggedNotReviewedCount%> audit that needs review
-        <% }. Please login to view them as soon as you can.</textarea>
+    <label for="pendingAuditNotificationMessage">The following message to <%=employee.firstName%>
+      <%=employee.lastName%>. Feel free to customize the text as you see fit.</label>
+    <textarea class="form-control" id="pendingAuditNotificationMessage" name="pendingAuditNotificationMessage"
+      rows="2"><%=pendingAuditNotificationMessage%></textarea>
   </div>
+  <input type="hidden" name="email" value="<%=employee.email%>">
+  <input type="hidden" name="employeeId" value="<%=employee._id%>">
 
 
-  <button class="btn btn-success">Create New User</button>
+  <button class="btn btn-success">Send Notification</button>
 </form>
 <% include ../../partials/footer %>
