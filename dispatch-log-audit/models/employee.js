@@ -34,6 +34,12 @@ const EmployeeSchema = new Schema({
   },
   resetTokenExpiration: {
     type: Date
+  },
+  notificationMessageId: {
+    type: String
+  },
+  notificationMessageSentDate: {
+    type: Date
   }
 });
 

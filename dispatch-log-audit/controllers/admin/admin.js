@@ -8,6 +8,7 @@ const sendGrid = nodemailer.createTransport(transport({
 }))
 
 const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const moment = require('moment');
 const mongoose = require('mongoose');
 const currentYear = moment().format('YY');
@@ -608,20 +609,42 @@ exports.postNotifyEmployee = (req, res, next) => {
     const emailAddress = req.body.email;
     const employeeId = req.body.employeeId;
 
-    // Send email to employee
+    // Generate a unique id and timestamp for the notification message. To be used as a way of preventing the administrator from sending duplicate notifications for the same audits.
 
-    const email = {
-        to: emailAddress,
-        from: 'doNotReply@AuditLog.com',
-        subject: 'Audit Review Requested',
-        html: `<p>${messageBody}</p>
-        <p><a href="${webAppURL}">Click this link to login to the site</a>.You can see which audits are flagged for review by clicking the "View Audits Flagged for Review" button after you login.</p>`
-    };
-    sendGrid.sendMail(email, (err, res) => {
+    crypto.randomBytes(32, (err, buffer) => {
         if (err) {
             console.log(err);
+            return res.redirect("back");
         }
-        console.log(res);
-    })
-    return res.redirect(`/admin/employees/${employeeId}`);
+        const notificationMessageId = buffer.toString("hex");
+        const notificationMessageSentDate = Date.now();
+        Employee
+            .findById(employeeId)
+            .then(employee => {
+                employee.notificationMessageId = notificationMessageId;
+                employee.notificationMessageSentDate = notificationMessageSentDate;
+                return employee.save();
+            }).then(employee => {
+                // Employee data updated.
+                req.flash("msg", `An email was sent to ${employee.firstName} to advise of this review request.`)
+                return res.redirect(`/admin/employees/${employee._id}`);
+            }).then(result => {
+                // Send email to employee
+
+                const email = {
+                    to: emailAddress,
+                    from: 'doNotReply@AuditLog.com',
+                    subject: 'Audit Review Requested',
+                    html: `<p>${messageBody}</p>
+        <p><a href="${webAppURL}">Click this link to login to the site</a>. You can see which audits are flagged for review by clicking the "View Audits Flagged for Review" button after you login.</p><p>Audits requiring that action be taken on your part will display <strong>Employee Review Needed</strong>.</p>`
+                };
+                sendGrid.sendMail(email, (err, res) => {
+                    if (err) {
+                        console.log(err);
+                    }
+                    console.log(res);
+                })
+            })
+            .catch(err => console.log(err));
+    });
 }
