@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 
+const { body, check } = require('express-validator');
+
 const adminController = require('../../controllers/admin/admin');
 
 router.get("/audits", adminController.getIndex);
@@ -43,8 +45,22 @@ router.get("/employees", adminController.getEmployeesIndex);
 
 // Create New User Account -- render form
 router.get("/employees/new", adminController.getAddUser);
+
 // Create new User account -- handle post request
-router.post("/employees", adminController.postAddUser);
+router.post("/employees", [
+  // validate email
+  check('email').isEmail(),
+  // pw must be at least 5 chars
+  check('password').isLength({ min: 5 }),
+  // PW and Confirm PW match
+  body('confirmPassword').custom((value, { req }) => {
+    if (value !== req.body.password) {
+      throw new Error('Password confirmation does not match password');
+    }
+    // successful synchronous custom validator
+    return true;
+  })
+], adminController.postAddUser);
 
 
 // Notify Employee of Audits form 

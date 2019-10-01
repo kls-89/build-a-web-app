@@ -2,6 +2,9 @@ const bcrypt = require('bcryptjs');
 const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const transport = require('nodemailer-sendgrid-transport');
+
+const { validationResult } = require('express-validator');
+
 const Employee = require('../../models/employee');
 
 const sendGrid = nodemailer.createTransport(transport({
@@ -174,6 +177,12 @@ exports.postNewPassword = (req, res, next) => {
   const employeeId = req.body.employeeId;
   const passwordToken = req.body.passwordToken;
   let resetEmployee;
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(422).json({ errors: errors.array() }
+    );
+  }
 
   Employee.findOne({
     _id: employeeId,

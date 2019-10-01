@@ -13,6 +13,8 @@ const moment = require('moment');
 const mongoose = require('mongoose');
 const currentYear = moment().format('YY');
 
+const { validationResult } = require('express-validator');
+
 const Employee = require('../../models/employee');
 const Audit = require('../../models/audit');
 
@@ -416,10 +418,14 @@ exports.postAddUser = (req, res, next) => {
     const confirmPassword = req.body.confirmPassword;
     const isAdmin = req.body.isAdmin;
 
-    if (password !== confirmPassword) {
-        // Password validation -- plaintext??
-        req.flash('error', "Passwords do not match. Please try again.");
-        return res.redirect('/admin/add-user');
+    // if (password !== confirmPassword) {
+    //     // Password validation -- plaintext??
+    //     req.flash('error', "Passwords do not match. Please try again.");
+    //     return res.redirect('/admin/add-user');
+    // }
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(422).json({ errors: errors.array() });
     }
 
     Employee
