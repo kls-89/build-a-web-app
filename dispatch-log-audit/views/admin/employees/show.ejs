@@ -34,7 +34,7 @@
       <% } %>
 
       <!-- If a notification was generated AND it's less than 1 week old, prevent Admin user from sending a duplicate notice. -->
-      <% if (employee.notificationMessageId &&  Date.now() - employee.notificationMessageSentDate < 604800000000) { %>
+      <% if (employee.notificationMessageId &&  Date.now() - employee.notificationMessageSentDate < 604800000) { %>
       <p>A
         notification
         was sent on <%=employee.notificationMessageSentDate.toDateString()%>.</p>
@@ -46,6 +46,8 @@
       <%   } %>
       <% } %>
       <% } %>
+
+      <%console.log(Date.now() - employee.notificationMessageSentDate < 604800000000)%>
   </div>
 </div>
 <a href="/admin/employee/<%=employee._id%>/edit" class="btn btn-warning">Update <%=employee.firstName%>'s
