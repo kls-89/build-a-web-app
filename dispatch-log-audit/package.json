@@ -34,7 +34,7 @@
     "express-validator": "^6.2.0",
     "method-override": "^3.0.0",
     "moment": "^2.24.0",
-    "mongoose": "^5.6.11",
+    "mongoose": "^5.7.5",
     "nodemailer": "^6.3.0",
     "nodemailer-sendgrid-transport": "^0.2.0"
   },
