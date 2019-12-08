@@ -1,0 +1,12 @@
+.sound-list {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+@media (min-width: 500px) {
+  .sound-list {
+    flex-flow: row wrap;
+    justify-content: center;
+  }
+}

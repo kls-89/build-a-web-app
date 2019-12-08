@@ -1,0 +1,14 @@
+.sound {
+  color: blue;
+  width: 200px;
+  height: 200px;
+  border: 1px solid #eee;
+  border-radius: 5px;
+  box-shadow: 5px 5px 8px #ccc;
+  margin: 1em;
+  padding: 1em;
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: space-around;
+  align-items: center;
+}

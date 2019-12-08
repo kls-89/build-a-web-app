@@ -1,6 +1,8 @@
 import React from "react";
+
 import Sound from "./Sound";
 
+import "./SoundList.css";
 const DEMOSOUNDS = [
   {
     id: "s1",
@@ -9,7 +11,7 @@ const DEMOSOUNDS = [
   },
   {
     id: "s2",
-    title: "Fart",
+    title: "Boo",
     soundSharing: "Limited"
   },
   {
@@ -20,9 +22,13 @@ const DEMOSOUNDS = [
 ];
 
 const SoundList = () => {
-  return DEMOSOUNDS.map(sound => {
-    return <Sound title={sound.title} />;
-  });
+  return (
+    <ul className="sound-list">
+      {DEMOSOUNDS.map(sound => {
+        return <Sound title={sound.title} />;
+      })}
+    </ul>
+  );
 };
 
 export default SoundList;
