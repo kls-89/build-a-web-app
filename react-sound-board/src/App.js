@@ -5,12 +5,11 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
-
 import Navbar from "./components/navigation/Navbar";
 import SoundList from "./components/sound/SoundList";
 import New from "./pages/sound/new";
-import Login from "./pages/auth/login";
-import SignUp from "./pages/auth/signup";
+import Login from "./pages/auth/Login";
+import SignUp from "./pages/auth/SignUp";
 
 import "./App.css";
 

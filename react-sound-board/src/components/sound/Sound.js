@@ -10,7 +10,7 @@ const Sound = props => {
       <div className="sound-header">
         <h2>{props.title}</h2>
       </div>
-      <PlayButton />
+      <PlayButton src={props.src} />
       <div className="sound-footer">
         <button>Edit</button>
         <button>Delete</button>

@@ -1,11 +1,7 @@
 import React from "react";
 
 const NavItem = props => {
-  return (
-    <li>
-      <a href="/">{props.title}</a>
-    </li>
-  );
+  return
 };
 
 export default NavItem;

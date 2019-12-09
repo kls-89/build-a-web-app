@@ -1,7 +1,12 @@
 import React from "react";
 
 const New = () => {
-  return <h1>New Sound page</h1>;
+  return (
+    <div>
+      <h1>New Sound page</h1>
+      {/* <input type="file" accept="audio/*" capture /> */}
+    </div>
+  );
 };
 
 export default New;

@@ -5,3 +5,9 @@
   border-bottom: 35px solid transparent;
   border-left: 35px solid green;
 }
+
+.stop-button {
+  width: 0;
+  height: 0;
+  border: 35px solid red;
+}

@@ -2,9 +2,10 @@
   display: flex;
   flex-flow: column wrap;
   align-items: center;
+  margin-top: 100px;
 }
 
-@media (min-width: 500px) {
+@media (min-width: 250px) {
   .sound-list {
     flex-flow: row wrap;
     justify-content: center;
