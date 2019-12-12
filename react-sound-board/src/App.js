@@ -8,6 +8,7 @@ import {
 import Navbar from "./components/navigation/Navbar";
 import SoundList from "./components/sound/SoundList";
 import New from "./pages/sound/new";
+import UserSoundboards from "./pages/sound/UserSoundboards";
 import Login from "./pages/auth/Login";
 import SignUp from "./pages/auth/SignUp";
 
@@ -25,6 +26,9 @@ const App = () => {
             </Route>
             <Route path="/sounds/new" exact>
               <New />
+            </Route>
+            <Route path="/sounds/users/:id" exact>
+              <UserSoundboards />
             </Route>
             <Route path="/login" exact>
               <Login />
