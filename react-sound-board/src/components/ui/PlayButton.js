@@ -1,29 +1,59 @@
-import React, { useState } from "react";
+import React from "react";
 
 import "./PlayButton.css";
 
-const PlayButton = props => {
-  const [togglePlayPause, setTogglePlayPause] = useState(true);
+class PlayButton extends React.Component {
+  state = {
+    isPaused: true
+  };
+  audio = new Audio(this.props.src);
 
-  const audio = new Audio(props.src);
-  const playSoundHandler = () => {
-    if (audio.paused) {
-      audio.play();
-      return setTogglePlayPause(false);
+  playSoundHandler = () => {
+    if (this.state.isPaused) {
+      this.audio.play();
+      this.setState({ isPaused: false });
+    } else {
+      this.audio.pause();
+      this.audio.currentTime = 0;
+      this.setState({ isPaused: true });
     }
-    audio.pause();
-    audio.currentTime = 0;
-    setTogglePlayPause(true);
   };
 
-  return (
-    <div
-      onClick={playSoundHandler}
-      className={togglePlayPause ? "play-button" : "stop-button"}
-    >
-      <audio src={props.src}></audio>
-    </div>
-  );
-};
+  render() {
+    return (
+      <div
+        onClick={this.playSoundHandler}
+        className={this.state.isPaused ? "play-button" : "stop-button"}
+      >
+        <audio src={this.props.src}></audio>
+      </div>
+    );
+  }
+}
+
+// const PlayButton = props => {
+//   const [isPaused, setIsPaused] = useState(true);
+//   const audio = new Audio(props.src);
+
+//   const playSoundHandler = () => {
+//     if (isPaused) {
+//       audio.play();
+//       setIsPaused(false);
+//     } else {
+//       audio.pause();
+//       audio.currentTime = 0;
+//       setIsPaused(true);
+//     }
+//   };
+
+//   return (
+//     <div
+//       onClick={playSoundHandler}
+//       className={isPaused ? "play-button" : "stop-button"}
+//     >
+//       <audio src={props.src}></audio>
+//     </div>
+//   );
+// };
 
 export default PlayButton;
