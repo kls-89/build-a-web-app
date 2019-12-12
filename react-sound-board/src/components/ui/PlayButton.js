@@ -6,6 +6,12 @@ class PlayButton extends React.Component {
   state = {
     isPaused: true
   };
+
+  // Stop playing audio if user navigates to a different page.
+  componentWillUnmount() {
+    this.audio.pause();
+  }
+
   audio = new Audio(this.props.src);
 
   playSoundHandler = () => {
