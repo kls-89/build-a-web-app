@@ -1,0 +1,36 @@
+.navbar {
+  background-color: #ccc;
+  height: 70px;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  margin-bottom: 4rem;
+}
+
+.nav-list {
+  display: flex;
+  flex-flow: column wrap;
+  align-content: flex-start;
+}
+
+.nav-list-item {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.nav-list-item:hover {
+  opacity: 0.6;
+}
+
+.nav-list-item:active {
+  text-decoration: underline;
+}
+@media (min-width: 500px) {
+  .nav-list {
+    flex-flow: row wrap;
+    justify-content: space-around;
+    align-items: center;
+  }
+}

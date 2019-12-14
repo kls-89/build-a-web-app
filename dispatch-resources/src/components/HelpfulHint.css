@@ -1,0 +1,9 @@
+.helpful-hint {
+  text-align: center;
+  background-color: yellow;
+  padding: 1em 0;
+  border-radius: 20px;
+  font-size: 20px;
+  margin: 1em auto;
+  width: 50%;
+}
